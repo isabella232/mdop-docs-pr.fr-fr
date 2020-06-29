@@ -1,0 +1,59 @@
+---
+title: Renommer un objet de stratégie de groupe ou un modèle
+description: Renommer un objet de stratégie de groupe ou un modèle
+author: dansimp
+ms.assetid: 64a1aaf4-f672-48b5-94c6-473bf1076cf3
+ms.reviewer: ''
+manager: dansimp
+ms.author: dansimp
+ms.pagetype: mdop
+ms.mktglfcycl: manage
+ms.sitesec: library
+ms.prod: w10
+ms.date: 06/16/2016
+ms.openlocfilehash: 495fc090487ff324bc19c89dcd36ecf0efbcb151
+ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.translationtype: MT
+ms.contentlocale: fr-FR
+ms.lasthandoff: 06/26/2020
+ms.locfileid: "10807529"
+---
+# <span data-ttu-id="78735-103">Renommer un objet de stratégie de groupe ou un modèle</span><span class="sxs-lookup"><span data-stu-id="78735-103">Rename a GPO or Template</span></span>
+
+
+<span data-ttu-id="78735-104">Vous pouvez renommer un objet de stratégie de groupe contrôlé (GPO) ou un modèle.</span><span class="sxs-lookup"><span data-stu-id="78735-104">You can rename a controlled Group Policy object (GPO) or a template.</span></span>
+
+<span data-ttu-id="78735-105">Un compte d’utilisateur ayant le rôle d’éditeur ou d’administrateur AGPM (contrôle total), le compte d’utilisateur de l’approbateur qui a créé l’objet de stratégie de groupe ou un compte d’utilisateur disposant des autorisations nécessaires dans la gestion avancée de la stratégie de groupe est requis pour effectuer cette procédure.</span><span class="sxs-lookup"><span data-stu-id="78735-105">A user account with the Editor or AGPM Administrator (Full Control) role, the user account of the Approver who created the GPO, or a user account with the necessary permissions in Advanced Group Policy Management is required to complete this procedure.</span></span> <span data-ttu-id="78735-106">Passez en revue les détails dans «autres considérations» dans cette rubrique.</span><span class="sxs-lookup"><span data-stu-id="78735-106">Review the details in "Additional considerations" in this topic.</span></span>
+
+**<span data-ttu-id="78735-107">Pour renommer un objet ou un modèle d’objet</span><span class="sxs-lookup"><span data-stu-id="78735-107">To rename a GPO or template</span></span>**
+
+1.  <span data-ttu-id="78735-108">Dans l’arborescence de la **console de gestion des stratégies de groupe** , cliquez sur modifier le **contrôle** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe.</span><span class="sxs-lookup"><span data-stu-id="78735-108">In the **Group Policy Management Console** tree, click **Change Control** in the forest and domain in which you want to manage GPOs.</span></span>
+
+2.  <span data-ttu-id="78735-109">Dans l’onglet **contenu** , cliquez sur l’onglet **contrôlé** ou **modèles** pour afficher l’élément à renommer.</span><span class="sxs-lookup"><span data-stu-id="78735-109">On the **Contents** tab, click the **Controlled** or **Templates** tab to display the item to rename.</span></span>
+
+3.  <span data-ttu-id="78735-110">Cliquez avec le bouton droit sur l’objet ou le modèle à renommer, puis cliquez sur **Renommer**.</span><span class="sxs-lookup"><span data-stu-id="78735-110">Right-click the GPO or template to rename and click **Rename**.</span></span>
+
+4.  <span data-ttu-id="78735-111">Tapez le nouveau nom de l’objet GPO ou du modèle, puis cliquez sur **OK**.</span><span class="sxs-lookup"><span data-stu-id="78735-111">Type the new name for the GPO or template and a comment, then click **OK**.</span></span>
+
+5.  <span data-ttu-id="78735-112">Lorsque la fenêtre de **progression** indique que l’avancement global est terminé, cliquez sur **Fermer**.</span><span class="sxs-lookup"><span data-stu-id="78735-112">When the **Progress** window indicates that overall progress is complete, click **Close**.</span></span> <span data-ttu-id="78735-113">L’objet ou le modèle s’affiche sous le nouveau nom dans l’onglet **contenu** .</span><span class="sxs-lookup"><span data-stu-id="78735-113">The GPO or template appears under the new name on the **Contents** tab.</span></span>
+
+### <span data-ttu-id="78735-114">Autres éléments à prendre en considération</span><span class="sxs-lookup"><span data-stu-id="78735-114">Additional considerations</span></span>
+
+-   <span data-ttu-id="78735-115">Par défaut, vous devez être l’approbateur qui a créé ou contrôlé l’objet de stratégie de groupe, un éditeur ou un administrateur AGPM (contrôle total) pour effectuer cette procédure.</span><span class="sxs-lookup"><span data-stu-id="78735-115">By default, you must be the Approver who created or controlled the GPO, an Editor, or an AGPM Administrator (Full Control) to perform this procedure.</span></span> <span data-ttu-id="78735-116">En particulier, vous devez disposer du **contenu de liste** et de l’autorisation de **modification des paramètres** pour l’objet de stratégie de groupe.</span><span class="sxs-lookup"><span data-stu-id="78735-116">Specifically, you must have **List Contents** and **Edit Settings** permission for the GPO.</span></span>
+
+-   <span data-ttu-id="78735-117">Lorsque vous renommez un objet de stratégie de groupe qui a été déployé, le nom est immédiatement modifié dans l’archive.</span><span class="sxs-lookup"><span data-stu-id="78735-117">When you rename a GPO that has been deployed, the name is immediately changed in the archive.</span></span> <span data-ttu-id="78735-118">Le nom est modifié dans l’environnement de production uniquement lorsque l’objet de stratégie de groupe est redéployé.</span><span class="sxs-lookup"><span data-stu-id="78735-118">The name is changed in the production environment only when the GPO is redeployed.</span></span>
+
+    <span data-ttu-id="78735-119">Tant que l’objet de stratégie de groupe n’est pas redéployé (ou la copie de production est supprimée), l’ancien nom est toujours utilisé dans l’environnement de production et ne peut donc pas être utilisé pour un autre objet de stratégie de groupe.</span><span class="sxs-lookup"><span data-stu-id="78735-119">Until the GPO is redeployed (or the production copy is deleted), the old name is still in use in the production environment and therefore cannot be used for another GPO.</span></span> <span data-ttu-id="78735-120">De même, l’objet de stratégie de groupe dans l’archive ne peut pas renommer son nom d’origine tant qu’il n’a pas été déployé (en changeant le nom de la copie de production) ou que la copie de production a été supprimée.</span><span class="sxs-lookup"><span data-stu-id="78735-120">Likewise, the GPO in the archive cannot be renamed back to its original name until the GPO has been deployed (changing the name of the production copy) or the production copy has been deleted.</span></span>
+
+### <span data-ttu-id="78735-121">Références supplémentaires</span><span class="sxs-lookup"><span data-stu-id="78735-121">Additional references</span></span>
+
+-   [<span data-ttu-id="78735-122">Modification d'un objet de stratégie de groupe</span><span class="sxs-lookup"><span data-stu-id="78735-122">Editing a GPO</span></span>](editing-a-gpo.md)
+
+ 
+
+ 
+
+
+
+
+
