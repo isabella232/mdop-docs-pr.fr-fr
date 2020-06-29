@@ -1,0 +1,71 @@
+---
+title: Notes de publication d'App-V4.6
+description: Notes de publication d'App-V4.6
+author: dansimp
+ms.assetid: a3eba129-edac-48bf-a933-3bf43a9873e5
+ms.reviewer: ''
+manager: dansimp
+ms.author: dansimp
+ms.pagetype: mdop, appcompat, virtualization
+ms.mktglfcycl: deploy
+ms.sitesec: library
+ms.prod: w10
+ms.date: 08/30/2016
+ms.openlocfilehash: 9eee3c309a927a72155dec707d8dd95f43e90fb9
+ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.translationtype: MT
+ms.contentlocale: fr-FR
+ms.lasthandoff: 06/26/2020
+ms.locfileid: "10809312"
+---
+# <span data-ttu-id="20672-103">Notes de publication d'App-V4.6</span><span class="sxs-lookup"><span data-stu-id="20672-103">App-V 4.6 Release Notes</span></span>
+
+
+<span data-ttu-id="20672-104">Pour effectuer une recherche dans ces notes de publication, appuyez sur CTRL + F.</span><span class="sxs-lookup"><span data-stu-id="20672-104">To search these Release Notes, press CTRL+F.</span></span>
+
+<span data-ttu-id="20672-105">**Important**  Lisez attentivement ces notes de publication avant d’installer le système de gestion Microsoft Application Virtualization (App-V).</span><span class="sxs-lookup"><span data-stu-id="20672-105">**Important** Read these Release Notes thoroughly before you install the Microsoft Application Virtualization (App-V) Management System.</span></span> <span data-ttu-id="20672-106">Ces notes de publication contiennent des informations dont vous avez besoin pour installer correctement la virtualisation des applications (App-V) 4.6.</span><span class="sxs-lookup"><span data-stu-id="20672-106">These Release Notes contain information that you need to successfully install Application Virtualization (App-V)4.6.</span></span> <span data-ttu-id="20672-107">Ce document contient des informations qui ne sont pas disponibles dans la documentation du produit.</span><span class="sxs-lookup"><span data-stu-id="20672-107">This document contains information that is not available in the product documentation.</span></span> <span data-ttu-id="20672-108">S’il existe une différence entre ces notes de publication et d’autres documents App-V, la dernière modification doit être considérée comme faisant autorité.</span><span class="sxs-lookup"><span data-stu-id="20672-108">If there is a discrepancy between these Release Notes and other App-V documentation, the latest change should be considered authoritative.</span></span>
+
+ 
+
+## <span data-ttu-id="20672-109">Se protéger contre les failles de sécurité et les virus</span><span class="sxs-lookup"><span data-stu-id="20672-109">Protect Against Security Vulnerabilities and Viruses</span></span>
+
+
+<span data-ttu-id="20672-110">Pour vous aider à vous protéger contre les failles de sécurité et les virus, il est important d’installer les mises à jour de sécurité disponibles pour tout nouveau logiciel installé.</span><span class="sxs-lookup"><span data-stu-id="20672-110">To help protect against security vulnerabilities and viruses, it is important to install the latest available security updates for any new software being installed.</span></span> <span data-ttu-id="20672-111">Pour plus d’informations, consultez le [site Web de Microsoft Security](https://go.microsoft.com/fwlink/?LinkId=3482) ( https://go.microsoft.com/fwlink/?LinkId=3482) .</span><span class="sxs-lookup"><span data-stu-id="20672-111">For more information, see the [Microsoft Security Web site](https://go.microsoft.com/fwlink/?LinkId=3482) (https://go.microsoft.com/fwlink/?LinkId=3482).</span></span>
+
+## <span data-ttu-id="20672-112">Problèmes connus liés à la virtualisation des applications 4.6</span><span class="sxs-lookup"><span data-stu-id="20672-112">Known Issues with Application Virtualization4.6</span></span>
+
+
+<span data-ttu-id="20672-113">Cette section fournit les informations les plus récentes sur les problèmes liés à Microsoft Application Virtualization (App-V) 4.6.</span><span class="sxs-lookup"><span data-stu-id="20672-113">This section provides the most up-to-date information about issues with Microsoft Application Virtualization (App-V)4.6.</span></span> <span data-ttu-id="20672-114">Ces problèmes n’apparaissent pas dans la documentation du produit et, dans certains cas, il peut s’avérer contradictoire.</span><span class="sxs-lookup"><span data-stu-id="20672-114">These issues do not appear in the product documentation and in some cases might contradict existing product documentation.</span></span> <span data-ttu-id="20672-115">Dans la mesure du possible, ces problèmes seront résolus dans les versions ultérieures.</span><span class="sxs-lookup"><span data-stu-id="20672-115">Whenever possible, these issues will be addressed in later releases.</span></span>
+
+### <span data-ttu-id="20672-116">Erreur de chargement/installation lors de l’exécution d’un fichier Windows Installer généré par le Sequencer App-V 4.5</span><span class="sxs-lookup"><span data-stu-id="20672-116">Load/install error running a Windows Installer file generated by the App-V4.5 Sequencer</span></span>
+
+<span data-ttu-id="20672-117">L’exécution d’un fichier d’installation Windows généré par le Sequencer App-V 4.5 génère une erreur de chargement/installation lors de la tentative d’exécution sur un client App-V 4,6.</span><span class="sxs-lookup"><span data-stu-id="20672-117">Running a Windows Installer file generated by the App-V4.5 Sequencer produces a load/install error when trying to run it on an App-V 4.6 client.</span></span> <span data-ttu-id="20672-118">Le message suivant s’affiche: «ce package nécessite le client Microsoft Application Virtualization 4.5 ou version ultérieure».</span><span class="sxs-lookup"><span data-stu-id="20672-118">You will see the following message: "This package requires Microsoft Application Virtualization Client4.5 or later".</span></span> <span data-ttu-id="20672-119">Vous pouvez utiliser la solution de contournement suivante.</span><span class="sxs-lookup"><span data-stu-id="20672-119">Please use the following workaround.</span></span>
+
+<span data-ttu-id="20672-120">WORKAROUNDOpen l’ancien package avec le Sequencer App-V 4,5 SP1 ou le Sequencer App-V 4,6 et générer un nouveau fichier. msi pour le package.</span><span class="sxs-lookup"><span data-stu-id="20672-120">WORKAROUNDOpen the old package with either the App-V 4.5 SP1 Sequencer or the App-V 4.6 Sequencer and generate a new .msi file for the package.</span></span>
+
+<span data-ttu-id="20672-121">**Remarques**  Par ailleurs, à l’invite de commandes, le Sequencer App-V peut générer le nouveau fichier. msi en utilisant les paramètres */Open* et */MSI* , par exemple, `SFTSequencer /Open:”package.sprj” /MSI` .</span><span class="sxs-lookup"><span data-stu-id="20672-121">**Note** Alternatively, at the command prompt, the App-V Sequencer can generate the new .msi file by using the */OPEN* and */MSI* parameters, for example, `SFTSequencer /Open:”package.sprj” /MSI`.</span></span> <span data-ttu-id="20672-122">Pour plus d’informations, reportez-vous [à la rubrique mise à niveau d’une application virtuelle à l’aide de la ligne de commande](how-to-upgrade-a-virtual-application-by-using-the-command-line.md).</span><span class="sxs-lookup"><span data-stu-id="20672-122">For more information, see [How to Upgrade a Virtual Application by Using the Command Line](how-to-upgrade-a-virtual-application-by-using-the-command-line.md).</span></span>
+
+ 
+
+### <span data-ttu-id="20672-123">Informations de copyright des notes de publication</span><span class="sxs-lookup"><span data-stu-id="20672-123">Release Notes Copyright Information</span></span>
+
+<span data-ttu-id="20672-124">Ce document est fourni «en l’absence».</span><span class="sxs-lookup"><span data-stu-id="20672-124">This document is provided “as-is”.</span></span> <span data-ttu-id="20672-125">Les informations contenues dans ce document, y compris les URL et autres références de sites Web, pourront faire l’objet de modifications sans préavis.</span><span class="sxs-lookup"><span data-stu-id="20672-125">Information and views expressed in this document, including URL and other Internet Web site references, may change without notice.</span></span> <span data-ttu-id="20672-126">Vous assumez le risque d’utilisation.</span><span class="sxs-lookup"><span data-stu-id="20672-126">You bear the risk of using it.</span></span>
+
+<span data-ttu-id="20672-127">Quelques exemples présentés dans les présentes sont fournis à titre indicatif uniquement et sont fictifs.</span><span class="sxs-lookup"><span data-stu-id="20672-127">Some examples depicted herein are provided for illustration only and are fictitious.</span></span><span data-ttu-id="20672-128">Aucune association ou connexion réelle ne doit être intentionnelle ou intentionnelle.</span><span class="sxs-lookup"><span data-stu-id="20672-128"> No real association or connection is intended or should be inferred.</span></span>
+
+<span data-ttu-id="20672-129">Ce document ne vous fournit aucun droit légal de propriété intellectuelle de tout produit Microsoft.</span><span class="sxs-lookup"><span data-stu-id="20672-129">This document does not provide you with any legal rights to any intellectual property in any Microsoft product.</span></span> <span data-ttu-id="20672-130">Vous pouvez copier le présent document pour une utilisation interne à des fins de référence.</span><span class="sxs-lookup"><span data-stu-id="20672-130">You may copy and use this document for your internal, reference purposes.</span></span> <span data-ttu-id="20672-131">Vous pouvez modifier ce document à des fins de référence interne.</span><span class="sxs-lookup"><span data-stu-id="20672-131">You may modify this document for your internal, reference purposes.</span></span>
+
+
+
+<span data-ttu-id="20672-132">Microsoft, Active Directory, ActiveSync, ActiveX, Excel, SQL Server, Windows, Windows PowerShell, Windows Server et Windows Vista sont des marques commerciales du groupe Microsoft de sociétés.</span><span class="sxs-lookup"><span data-stu-id="20672-132">Microsoft, Active Directory, ActiveSync, ActiveX, Excel, SQL Server, Windows, Windows PowerShell, Windows Server, and Windows Vista are trademarks of the Microsoft group of companies.</span></span>
+
+<span data-ttu-id="20672-133">Toutes les autres marques déposées sont la propriété de leurs détenteurs respectifs.</span><span class="sxs-lookup"><span data-stu-id="20672-133">All other trademarks are property of their respective owners.</span></span>
+
+ 
+
+ 
+
+
+
+
+
