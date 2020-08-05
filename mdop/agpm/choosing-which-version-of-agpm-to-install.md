@@ -11,12 +11,12 @@ ms.mktglfcycl: manage
 ms.sitesec: library
 ms.prod: w10
 ms.date: 04/05/2017
-ms.openlocfilehash: b09ea8161b6801c62552f1c0d0ef8455dc111e2f
-ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.openlocfilehash: f8a69fb323d9f47c5b906ac3abc6ec59376ee6f7
+ms.sourcegitcommit: 0a7dee11289780336d9c24ebbf27c5c1ffee441c
 ms.translationtype: MT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 06/26/2020
-ms.locfileid: "10807770"
+ms.lasthandoff: 08/04/2020
+ms.locfileid: "10905601"
 ---
 # Choix de la version d'AGPM à installer
 
@@ -53,42 +53,47 @@ Le tableau 1 recense les systèmes d’exploitation sur lesquels vous pouvez ins
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><p>Windows Server 2016 ou Windows 10</p></td>
-<td align="left"><p>Windows Server 2016 ou Windows 10</p></td>
+<td align="left"><p>Windows Server 2019 ou Windows 10</p></td>
+<td align="left"><p>Windows Server 2019 ou Windows 10</p></td>
 <td align="left"><p>Pris en charge</p></td>
 </tr>
-<tr class="even">
+ <tr class="even">
+<td align="left"><p>Windows Server 2019 ou Windows 10</p></td>
+<td align="left"><p>Windows Server 2019 ou Windows 10</p></td>
+<td align="left"><p>Pris en charge</p></td>
+</tr>
+<tr class="edd">
 <td align="left"><p>Windows Server2012 R2</p></td>
 <td align="left"><p>Windows 10</p></td>
 <td align="left"><p>Pris en charge avec les avertissements décrits dans <a href="https://support.microsoft.com/help/4015786/known-issues-managing-a-windows-10-group-policy-client-in-windows-serv" data-raw-source="[KB 4015786](https://support.microsoft.com/help/4015786/known-issues-managing-a-windows-10-group-policy-client-in-windows-serv)"> KB 4015786</a>
 </p></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><p>Windows Server2012 R2 ou Windows 8.1</p></td>
 <td align="left"><p>Windows Server2012 R2 ou Windows 8.1</p></td>
 <td align="left"><p>Pris en charge</p></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><p>Windows Server2012 R2, Windows Server 2012 ou Windows 8.1</p></td>
 <td align="left"><p>Windows Server 2012 ou Windows 8,1</p></td>
 <td align="left"><p>Pris en charge, mais ne peut pas modifier les paramètres de stratégie ou les éléments de préférence qui existent uniquement dans Windows 8.1</p></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><p>Windows Server2008R2 ou Windows.</p></td>
 <td align="left"><p>Windows Server2008R2 ou Windows.</p></td>
 <td align="left"><p>Pris en charge, mais ne peut pas modifier les paramètres de stratégie ou les éléments de préférence qui existent uniquement dans Windows 8.1</p></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><p>Windows Server 2012, Windows Server2008R2 ou Windows.</p></td>
 <td align="left"><p>Windows Server 2008 ou Vista avec Service Pack 1 (SP1)</p></td>
 <td align="left"><p>Pris en charge, mais ne peut pas modifier les paramètres de stratégie ou les éléments de préférence qui existent uniquement dans Windows Server2012 R2, Windows Server 2012, Windows Server2008R2, Windows 8.1 ou Windows</p></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><p>Windows Server 2008 ou Windows Vista avec SP1</p></td>
 <td align="left"><p>Windows Server 2012, Windows Server2008R2, Windows 8 ou Windows 7</p></td>
 <td align="left"><p>Non pris en charge</p></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><p>Windows Server 2008 ou Windows Vista avec SP1</p></td>
 <td align="left"><p>Windows Server 2008 ou Windows Vista avec SP1</p></td>
 <td align="left"><p>Pris en charge, mais il est impossible de signaler ou de modifier des paramètres de stratégie ou des éléments de préférence qui existent uniquement dans Windows Server2012 R2, Windows Server 2012, Windows Server2008R2, Windows 8.1 ou Windows.</p></td>
