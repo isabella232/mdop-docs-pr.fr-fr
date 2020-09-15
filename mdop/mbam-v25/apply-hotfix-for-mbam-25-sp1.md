@@ -1,7 +1,7 @@
 ---
 title: Application de correctifs sur MBAM2.5SP1
 description: Application de correctifs sur MBAM2.5SP1
-ms.author: ppriya-msft
+ms.author: dansimp
 author: dansimp
 ms.assetid: ''
 ms.reviewer: ''
@@ -11,12 +11,12 @@ ms.mktglfcycl: manage
 ms.sitesec: library
 ms.prod: w10
 ms.date: 8/30/2018
-ms.openlocfilehash: 71f840ce4d57a0698289128f92b9d760ca14ddfc
-ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.openlocfilehash: ea564d93a3eec6a46ec7d4c1be0f794abba9c93e
+ms.sourcegitcommit: 8ecbf818a6ff2ddafd80b93614c01256484737ad
 ms.translationtype: MT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 06/26/2020
-ms.locfileid: "10810404"
+ms.lasthandoff: 09/14/2020
+ms.locfileid: "11014988"
 ---
 # Application de correctifs sur MBAM2.5SP1
 Cette rubrique décrit la procédure d’application des correctifs pour l’administration et la surveillance de Microsoft BitLocker (MBAM) Server 2,5 SP1
