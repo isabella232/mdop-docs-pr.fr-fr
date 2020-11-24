@@ -11,12 +11,12 @@ ms.mktglfcycl: manage
 ms.sitesec: library
 ms.prod: w10
 ms.date: 10/24/2018
-ms.openlocfilehash: 262cd8c259dc37b291cdaf02caf0e20b7515d38b
-ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.openlocfilehash: 8ed7915e33c5e4735a7c58674ed5f7d6da8e9a06
+ms.sourcegitcommit: 9087f0a1b5bd3f81a9b790d5e39fdf39c18a2411
 ms.translationtype: MT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 06/26/2020
-ms.locfileid: "10810229"
+ms.lasthandoff: 11/23/2020
+ms.locfileid: "11182926"
 ---
 # Configurations prises en charge par MBAM2.5
 
@@ -33,7 +33,7 @@ Microsoft prend en charge le Service Pack actuel et, dans certains cas, le Servi
 ## Langues prises en charge par MBAM
 
 
-Les tableaux suivants illustrent les langues prises en charge pour le client MBAM (y compris le portail libre-service) et le serveur MBAM dans MBAM 2,5 et MBAM 2,5 SP1.
+Les tableaux suivants illustrent les langues prises en charge pour le client MBAM (y compris le portail de Self-Service) et le serveur MBAM dans MBAM 2,5 et MBAM 2,5 SP1.
 
 **Langues prises en charge dans MBAM 2,5 SP1:**
 
@@ -165,6 +165,12 @@ Le tableau suivant répertorie les systèmes d’exploitation pris en charge pou
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td align="left"><p>Windows Server2019</p></td>
+<td align="left"><p>Standard ou Datacenter</p></td>
+<td align="left"></td>
+<td align="left"><p>64 bits</p></td>
+</tr>
 <tr class="odd">
 <td align="left"><p>Windows Server2016</p></td>
 <td align="left"><p>Standard ou Datacenter</p></td>
@@ -349,6 +355,10 @@ Vous devez installer SQL Server à l’aide du **SQL \ _Latin1 \ _General \ _CP1
 </thead>
 <tbody>
 <tr class="odd">
+<td align="left"><p>Microsoft SQL Server 2019</p></td>
+<td align="left"><p>Standard, entreprise ou centre de</p></td>
+<td align="left"><p></p></td>
+<td align="left"><p>64 bits</p></td><br/><tr class="even">
 <td align="left"><p>Microsoft SQL Server 2017</p></td>
 <td align="left"><p>Standard, entreprise ou centre de</p></td>
 <td align="left"><p></p></td>
@@ -377,7 +387,9 @@ Vous devez installer SQL Server à l’aide du **SQL \ _Latin1 \ _General \ _CP1
 </table>
 
 **Remarque**  
-Pour prendre en charge SQL 2016, vous devez installer le version de service de mars 2017 pour MDOP https://www.microsoft.com/download/details.aspx?id=54967 et prendre en charge sql 2017 vous devez installer la version de maintenance de juillet 2018 pour MDOP https://www.microsoft.com/download/details.aspx?id=57157 . En règle générale, restez en mesure d’utiliser la mise à jour de maintenance la plus récente, car elle inclut également toutes les ainsi correctifs et nouvelles fonctionnalités.
+MBAM possède un niveau de compatibilité maximal pris en charge de 140. Le niveau de compatibilité par défaut pour les nouvelles bases de données créées sur SQL Server 2019 est 150 dont la modification doit être apportée à 140 ou une version antérieure, à l’aide de la commande modifier la base de données, après la création de la base de données. Les bases de données existantes migrées à partir de SQL Server 2017 ou d’une version antérieure seront maintenues à leur niveau de compatibilité précédent et ne doivent pas être altérées.
+
+Pour prendre en charge SQL 2016, vous devez installer le version de service de mars 2017 pour MDOP https://www.microsoft.com/download/details.aspx?id=54967  et prendre en charge sql 2017 vous devez installer la version de maintenance de juillet 2018 pour MDOP https://www.microsoft.com/download/details.aspx?id=57157 . En règle générale, restez en mesure d’utiliser la mise à jour de maintenance la plus récente, car elle inclut également toutes les ainsi correctifs et nouvelles fonctionnalités.
 
 
 ### <a href="" id="bkmk-sql-stand-alone-ramreqs"></a>Configuration requise pour le processeur SQL Server, la RAM et l’espace disque-topologie autonome
