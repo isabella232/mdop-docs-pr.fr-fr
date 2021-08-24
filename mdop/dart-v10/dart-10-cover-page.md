@@ -1,6 +1,6 @@
 ---
-title: DaRT10
-description: DaRT10
+title: DaRT 10
+description: DaRT 10
 author: dansimp
 ms.assetid: 875f6dc4-13f4-4625-8c6a-38215c2daf01
 ms.reviewer: ''
@@ -11,38 +11,38 @@ ms.mktglfcycl: support
 ms.sitesec: library
 ms.prod: w10
 ms.date: 06/16/2016
-ms.openlocfilehash: 0e5ff1069d8be5ec1cd87d4db64e6b8f114c91b3
-ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.openlocfilehash: 6b7f5e1b906f22146016c9c485b02b39edbf083c
+ms.sourcegitcommit: 3e0500abde44d6a09c7ac8e3caf5e25929b490a4
 ms.translationtype: MT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 06/26/2020
-ms.locfileid: "10804771"
+ms.lasthandoff: 08/23/2021
+ms.locfileid: "11910649"
 ---
-# DaRT10
+# <a name="dart-10"></a>DaRT 10
 
 
-![logo MBAM](images/mbam-logo-sm.gif)
+![Logo mbam.](images/mbam-logo-sm.gif)
 
-## <a href="" id="administrator-s-guide-for--product-name-"></a>Guide de l’administrateur pour le &lt; nom du produit&gt;
+## <a name="administrators-guide-for-ltproduct-namegt"></a><a href="" id="administrator-s-guide-for--product-name-"></a>Guide de l’administrateur pour le nom &lt; du produit&gt;
 
 
-Publié le: * &lt; date &gt; de publication*
+Publié : * &lt; date de publication &gt; *
 
-*Incluez une synthèse de synthèse générale du produit, ici.*
+*Incluez ici une vue d’ensemble du produit.*
 
-Ce guide décrit comment installer et utiliser le * &lt; nom &gt; du produit*. Ce guide est destiné aux administrateurs et au personnel informatique.
+Ce guide décrit comment installer et utiliser le nom * &lt; du produit. &gt; * Ce guide est destiné aux administrateurs et au personnel informatique.
 
-Pour obtenir la documentation la plus récente sur le * &lt; nom &gt; du produit*, voir la page d’accueil insérer un *lien hypertexte* .
+Pour obtenir la documentation la plus à jour concernant * &lt; le nom du &gt; *produit, consultez le lien insérer *ici* la page d’accueil.
 
-Pour consulter les notes de publication du * &lt; nom &gt; du produit*, voir insérer un *lien ici*.
+Pour les notes de publication du * &lt; nom du produit, &gt; *voir le lien Insérer *ici.*
 
-### Commentaires
+### <a name="feedback"></a>Commentaires
 
 Envoyez des suggestions et des commentaires sur ce document à <mdopdocs@microsoft.com> .
 
- 
+ 
 
- 
+ 
 
 
 

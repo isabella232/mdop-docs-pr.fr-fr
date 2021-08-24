@@ -1,6 +1,6 @@
 ---
-title: Guide pas à pas de la Gestion avancée des stratégies de groupe Microsoft2.5
-description: Guide pas à pas de la Gestion avancée des stratégies de groupe Microsoft2.5
+title: Guide pas à pas de la Gestion avancée des stratégies de groupe Microsoft 2.5
+description: Guide pas à pas de la Gestion avancée des stratégies de groupe Microsoft 2.5
 author: dansimp
 ms.assetid: 454298c9-0fab-497a-9808-c0246a4c8db5
 ms.reviewer: ''
@@ -11,520 +11,527 @@ ms.mktglfcycl: manage
 ms.sitesec: library
 ms.prod: w10
 ms.date: 08/30/2016
-ms.openlocfilehash: 67925e417e4fb1f5398dfd030f366936f1d36909
-ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.openlocfilehash: 4b63406442cd3560266bb9c05c5deb384f141104
+ms.sourcegitcommit: 3e0500abde44d6a09c7ac8e3caf5e25929b490a4
 ms.translationtype: MT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 06/26/2020
-ms.locfileid: "10808209"
+ms.lasthandoff: 08/23/2021
+ms.locfileid: "11910679"
 ---
-# Guide pas à pas de la Gestion avancée des stratégies de groupe Microsoft2.5
+# <a name="step-by-step-guide-for-microsoft-advanced-group-policy-management-25"></a>Guide pas à pas de la Gestion avancée des stratégies de groupe Microsoft 2.5
 
 
-Ce guide pas à pas décrit les techniques avancées de gestion des stratégies de groupe à l’aide de la console de gestion des stratégies de groupe (GPMC) et de la gestion de la stratégie de groupe Microsoft avancée (AGPM). AGPM augmente les capacités de la console de gestion des stratégies de GPMC et fournit les éléments suivants:
+Ce guide pas à pas présente les techniques avancées de gestion des stratégies de groupe à l’aide de la Console de gestion des stratégies de groupe (GPMC) et de la Gestion avancée des stratégies de groupe (AGPM) Microsoft. AGPM augmente les fonctionnalités de la GPMC, en fournissant :
 
--   Rôles standard pour la délégation d’autorisations pour gérer des objets de stratégie de groupe pour plusieurs administrateurs de stratégie de groupe.
+-   Rôles standard pour la délégation des autorisations de gestion des objets de stratégie de groupe à plusieurs administrateurs de stratégie de groupe.
 
--   Archive permettant aux administrateurs de stratégie de groupe de créer et de modifier des objets de stratégie de groupe hors ligne avant de les déployer dans un environnement de production.
+-   Archive permettant aux administrateurs de stratégie de groupe de créer et de modifier des G GPO hors connexion avant de les déployer dans un environnement de production.
 
--   La possibilité de revenir à une version précédente d’un objet de stratégie de groupe.
+-   Possibilité de revenir à une version antérieure d’un GPO.
 
--   La fonctionnalité d’archivage/extraction pour les objets de stratégie de groupe permet de s’assurer que les administrateurs de stratégie de groupe n’écrasent pas par inadvertance les tâches d’un autre groupe.
+-   Fonctionnalité d’enregistrement/d’check-out pour les GOP pour s’assurer que les administrateurs de stratégie de groupe n’ont pas par inadvertance le travail des autres.
 
-## Vue d’ensemble du scénario AGPM
-
-
-Pour ce scénario, vous allez utiliser un compte d’utilisateur distinct pour chaque rôle dans AGPM et montrer comment la stratégie de groupe peut être gérée dans un environnement doté de plusieurs administrateurs de stratégie de groupe disposant de différents niveaux d’autorisation. Plus précisément, vous devez effectuer les tâches suivantes:
-
--   À l’aide d’un compte membre du groupe administrateurs de domaine, installez le serveur AGPM et attribuez le rôle d’administrateur AGPM à un compte ou à un groupe.
-
--   À l’aide des comptes auxquels vous allez attribuer des rôles AGPM, installez le client AGPM.
-
--   À l’aide d’un compte ayant le rôle d’administrateur AGPM, configurez l’accès AGPM et déléguez aux objets de stratégie de groupe en attribuant des rôles à d’autres comptes.
-
--   En utilisant un compte doté du rôle d’éditeur, demandez la création d’un objet de stratégie de groupe, que vous approuvez ensuite en utilisant un compte doté du rôle Approbateur. Avec le compte de l’éditeur, recherchez l’objet de stratégie de groupe à partir de l’archive, modifiez-le, puis consultez l’objet de stratégie de groupe dans l’archive et demandez le déploiement.
-
--   En utilisant un compte doté du rôle Approbateur, passez en revue l’objet de stratégie de groupe et déployez-le dans votre environnement de production.
-
--   À l’aide d’un compte avec le rôle d’éditeur, créez un modèle d’objet de stratégie de groupe et utilisez-le comme point de départ pour créer un nouvel objet de stratégie de groupe.
-
--   En utilisant un compte doté du rôle Approbateur, supprimez et restaurez un objet de stratégie de groupe.
-
-![processus de développement d’objets de stratégie de groupe](images/ab77a1f3-f430-4e7d-be58-ee8f9bd1140e.gif)
-
-## Configuration requise
+## <a name="agpm-scenario-overview"></a>Vue d’ensemble du scénario AGPM
 
 
-Les ordinateurs sur lesquels vous souhaitez installer AGPM doivent respecter les exigences suivantes et vous devez créer des comptes à utiliser dans ce scénario.
+Pour ce scénario, vous allez utiliser un compte d’utilisateur distinct pour chaque rôle dans AGPM afin de montrer comment la stratégie de groupe peut être gérée dans un environnement avec plusieurs administrateurs de stratégie de groupe ayant différents niveaux d’autorisations. Plus précisément, vous allez effectuer les tâches suivantes :
 
-### Configuration requise pour le serveur AGPM
+-   À l’aide d’un compte membre du groupe Administrateurs du domaine, installez le serveur AGPM et attribuez le rôle d’administrateur AGPM à un compte ou un groupe.
 
-Le serveur AGPM Server 2.5 nécessite Vista® (version 32 bits) sans Service Pack ou Windows Server® 2003 (32 bits), ainsi que la console de gestion des stratégies de GPMC. Par ailleurs, vous devez être membre du groupe Domain Admins pour installer le serveur AGPM.
+-   À l’aide des comptes pour lesquels vous allez attribuer des rôles AGPM, installez le client AGPM.
 
-Vous devez installer le serveur AGPM sur un serveur membre ou un contrôleur de domaine avec la version la plus récente de GPMC qui est disponible pour vous et pris en charge par AGPM. AGPM utilise la console GPMC pour sauvegarder et restaurer des objets de stratégie de groupe, et les versions plus récentes de la console GPMC fournissent des paramètres de stratégie supplémentaires qui ne sont pas disponibles dans les versions précédentes. Si la version de GPMC sur votre serveur AGPM est antérieure à la version sur les ordinateurs utilisés par les administrateurs pour gérer la stratégie de groupe, le serveur AGPM ne sera pas en mesure de stocker ces paramètres de stratégie qui ne sont pas disponibles dans l’ancienne version de GPMC.
+-   À l’aide d’un compte avec le rôle d’administrateur AGPM, configurez AGPM et déléguer l’accès aux GPM en attribuant des rôles à d’autres comptes.
 
-Plus précisément, si votre serveur AGPM exécute Windows Server2003 et la version de la console de gestion des stratégies de groupe qui l’accompagnent et que les ordinateurs de l’administrateur de la stratégie de groupe exécutent Vista et la version de la console de gestion des stratégies de groupe, vous pouvez toujours gérer la plupart des paramètres de stratégie. Toutefois, les paramètres de stratégie de la console GPMC dans Windows Vista qui ne sont pas disponibles dans la console GPMC de Windows Server 2003, tels que ceux liés à la redirection de dossiers, au réseau sans fil (IEEE 802,11) et aux imprimantes déployées, ne peuvent pas être stockés par le serveur AGPM, même si les administrateurs peuvent les configurer à l’aide d’AGPM sur leur ordinateur.
+-   À l’aide d’un compte avec le rôle d’éditeur, demandez la création d’un GPO, que vous approuvez ensuite à l’aide d’un compte avec le rôle d’approbation. Avec le compte d’éditeur, vérifiez l’GPO hors de l’archive, modifiez-le, archivez-le dans l’archive et demandez le déploiement.
 
-Si vous devez installer le serveur AGPM sur un ordinateur doté d’une version plus ancienne de GPMC que les administrateurs de stratégie de groupe en cours d’exécution, voir les informations de référence des paramètres de stratégie de groupe pour plus d’informations sur les paramètres de stratégie disponibles pour les systèmes d’exploitation. Pour télécharger la référence des paramètres de stratégie de groupe, reportez-vous à la section <https://go.microsoft.com/fwlink/?LinkID=106147> .
+-   À l’aide d’un compte avec le rôle d’approbation, examinez l’GPO et déployez-le dans votre environnement de production.
 
-**Remarques**  Les archives ne peuvent pas être déplacées à partir d’un serveur AGPM ou d’un serveur GPOVault exécutant Windows Server2003 vers un serveur AGPM exécutant Vista.
+-   À l’aide d’un compte avec le rôle Éditeur, créez un modèle d’GPO et utilisez-le comme point de départ pour créer un nouvel GPO.
 
-Pour Windows Server2003, si GPOVault Server est installé sur l’ordinateur sur lequel vous voulez installer le serveur AGPM, il est recommandé de ne pas désinstaller GPOVault Server avant de commencer l’installation. L’installation d’AGPM Server désinstallera GPOVault Server et transférera automatiquement vos données d’archive GPOVault existantes vers une archive AGPM.
+-   À l’aide d’un compte avec le rôle d’approbation, supprimez et restituer un GPO.
 
- 
+![processus de développement d’objets de stratégie de groupe.](images/ab77a1f3-f430-4e7d-be58-ee8f9bd1140e.gif)
 
-### Configuration requise pour le client AGPM
+## <a name="requirements"></a>Conditions préalables
 
-Le client AGPM est requis pour Vista (version 32 bits) sans Service Pack ou Windows Server2003 (version 32 bits), ainsi que la console GPMC. Le client AGPM peut être installé sur un ordinateur exécutant AGPM Server.
 
-### Exigences de scénarios
+Les ordinateurs sur lesquels vous souhaitez installer AGPM doivent répondre aux exigences suivantes et vous devez créer des comptes à utiliser dans ce scénario.
 
-Avant de commencer ce scénario, vous devez créer quatre comptes d’utilisateurs. Pendant le scénario, vous devez attribuer l’un des rôles AGPM suivants à chacun de ces comptes: Administrateur AGPM (contrôle total), approbateur, éditeur et relecteur. Ces comptes doivent être en mesure d’envoyer et de recevoir des messages électroniques. Attribution d’autorisations d’accès aux **objets liés** aux comptes avec l’administrateur d’AGPM, l’approbateur et (facultatif) des rôles d’éditeur.
+### <a name="agpm-server-requirements"></a>Conditions requises pour le serveur AGPM
 
-**Remarques** 
- L’autorisation **lier les objets de stratégie de groupe** est affectée par défaut aux membres des administrateurs de domaine et des administrateurs d’entreprise. Pour affecter **des** autorisations d’accès de l’utilisateur à des groupes ou des utilisateurs supplémentaires (par exemple, des comptes ayant le rôle d’administrateur ou d’approbation AGPM), cliquez sur le nœud du domaine, puis cliquez sur l’onglet **délégation** , sélectionnez **lier les objets de stratégie de groupe**, cliquez sur **Ajouter**, et sélectionnez des utilisateurs ou des groupes auxquels vous voulez accorder l’autorisation.
+AGPM Server 2.5 nécessite Windows Vista® (version 32 bits) sans Service Packs installé ou Windows Server® 2003 (version 32 bits), ainsi que la GPMC. En outre, vous devez être membre du groupe Administrateurs du domaine pour installer le serveur AGPM.
+
+Vous devez installer le serveur AGPM sur un serveur membre ou un contrôleur de domaine avec la version la plus récente de la GPMC disponible et prise en charge par AGPM. AGPM utilise la GPMC pour la back up et la restauration des GPM, et les versions plus récentes de la GPMC fournissent des paramètres de stratégie supplémentaires qui ne sont pas disponibles dans les versions précédentes. Si la version de la GPM sur votre serveur AGPM est antérieure à la version des ordinateurs que les administrateurs utilisent pour gérer la stratégie de groupe, le serveur AGPM ne pourra pas stocker ces paramètres de stratégie non disponibles dans l’ancienne version de gpMC.
+
+Plus précisément, si votre serveur AGPM exécute Windows Server 2003 et la version de la GPMC qui l’accompagne, et que les ordinateurs de vos administrateurs de stratégie de groupe exécutent Windows Vista et la version de la GPMC qui l’accompagne, vous pouvez toujours gérer la plupart des paramètres de stratégie. Toutefois, les paramètres de stratégie de la GPMC dans Windows Vista qui ne sont pas disponibles dans la GPMC dans Windows Server 2003, tels que ceux liés à la redirection de dossiers, à la mise en réseau sans fil (IEEE 802.11) et aux imprimantes déployées, ne peuvent pas être stockés par le serveur AGPM, même si les administrateurs peuvent les configurer à l’aide d’AGPM sur leurs ordinateurs.
+
+Si vous devez installer le serveur AGPM sur un ordinateur dont la version de gpmc est antérieure à celle que vos administrateurs de stratégie de groupe exécutent, consultez la référence de la stratégie de groupe Paramètres pour plus d’informations sur les paramètres de stratégie disponibles avec les systèmes d’exploitation. Pour télécharger la référence de stratégie Paramètres groupe, voir <https://go.microsoft.com/fwlink/?LinkID=106147> .
+
+**Remarque**  
+Les archives ne peuvent pas être migrées d’un serveur AGPM ou d’un serveur GPOVault exécutant Windows Server 2003 vers un serveur AGPM exécutant Windows Vista.
+
+Pour Windows Server 2003, si GPOVault Server est installé sur l’ordinateur sur lequel vous souhaitez installer AGPM Server, il est recommandé de ne pas désinstaller GPOVault Server avant de commencer l’installation. L’installation du serveur AGPM désinstalle GPOVault Server et transfère automatiquement vos données d’archivage GPOVault existantes vers une archive AGPM.
 
  
 
-Pour ce scénario, vous devez effectuer des actions avec différents comptes. Vous pouvez vous connecter avec chaque compte comme indiqué, ou utiliser la commande **exécuter en tant que** pour démarrer la console de gestion des stratégies de gestion des stratégies avec le compte indiqué.
+### <a name="agpm-client-requirements"></a>Conditions requises pour le client AGPM
 
-**Remarques**  Pour utiliser la commande **exécuter en tant que** avec la console GPMC sur Windows Server2003, cliquez sur **Démarrer**, pointez sur **Outils d’administration**, cliquez avec le bouton droit sur **gestion des stratégies de groupe**, puis cliquez sur **exécuter en tant que**. Cliquez sur **l’utilisateur suivant** et entrez les informations d’identification d’un compte.
+AGPM Client 2.5 nécessite Windows Vista (version 32 bits) sans service packs installés ou Windows Server 2003 (version 32 bits), ainsi que la GPMC. Le client AGPM peut être installé sur un ordinateur exécutant le serveur AGPM.
 
-Pour utiliser la commande **exécuter en tant que** avec la console GPMC sur Windows Vista, cliquez sur le bouton **Démarrer** , pointez sur **exécuter**, puis tapez **runas/user:** <em> DomainName\\UserName </em> **"mmc%windir%\\system32\\gpmc.msc"**, puis cliquez sur **OK**. Lorsque vous y êtes invité, entrez le mot de passe du compte.
+### <a name="scenario-requirements"></a>Conditions requises pour le scénario
+
+Avant de commencer ce scénario, créez quatre comptes d’utilisateur. Au cours du scénario, vous allez attribuer l’un des rôles AGPM suivants à chacun de ces comptes : Administrateur AGPM (Contrôle total), Approuver, Éditeur et Réviseur. Ces comptes doivent pouvoir envoyer et recevoir des messages électroniques. Attribuez **l’autorisation d’associer** des GPM aux comptes avec les rôles d’administrateur AGPM, d’approbation et (facultatif) d’éditeur.
+
+**Remarque**  
+**L’autorisation d’os** de groupe de liens est attribuée aux membres des administrateurs de domaine Enterprise administrateurs de domaine par défaut. Pour **** attribuer l’autorisation d’associer des GPM à d’autres utilisateurs ou groupes (tels que les comptes **** avec les rôles d’administrateur AGPM ou d’approbation), cliquez sur le nœud du domaine, puis cliquez sur l’onglet Délégation, sélectionnez Lier des GPM, **** cliquez sur Ajouter **et**sélectionnez les utilisateurs ou groupes auquel attribuer l’autorisation.
 
  
 
-## Procédures d’installation et de configuration d’AGPM
+Pour ce scénario, vous effectuez des actions avec différents comptes. Vous pouvez vous connecter avec chaque compte comme indiqué, ou vous pouvez utiliser la commande Exécuter en tant que pour démarrer la GPMC avec le compte indiqué. ****
+
+**Remarque**  
+Pour utiliser **** la commande Exécuter en tant que avec gpMC sur Windows Server 2003, cliquez sur **Démarrer,** pointez sur Outils d’administration, **** cliquez avec le bouton droit sur Gestion des stratégies de **groupe,** puis cliquez sur Exécuter **en**tant que . Cliquez **sur l’utilisateur suivant et** entrez les informations d’identification d’un compte.
+
+Pour utiliser **** la commande Exécuter en tant que avec **** gpMC sur Windows Vista, cliquez sur le bouton Démarrer, pointez sur Exécuter **et**tapez **runas /user:** <em> DomainName\\UserName </em> **«mmc %windir%\\system32\\gpmc.msc»,** puis cliquez sur **OK**. Tapez le mot de passe du compte lorsque vous y invitez.
+
+ 
+
+## <a name="steps-for-installing-and-configuring-agpm"></a>Étapes d’installation et de configuration d’AGPM
 
 
-Pour installer et configurer AGPM, vous devez procéder comme suit.
+Vous devez effectuer les étapes suivantes pour installer et configurer AGPM.
 
-[Étape 1: installer le serveur AGPM](#bkmk-config1)
+[Étape 1 : Installer le serveur AGPM](#bkmk-config1)
 
-[Étape 2: installer le client AGPM](#bkmk-config2)
+[Étape 2 : Installer le client AGPM](#bkmk-config2)
 
-[Étape 3: configurer une connexion de serveur AGPM](#bkmk-config3)
+[Étape 3 : Configurer une connexion de serveur AGPM](#bkmk-config3)
 
-[Étape 4: configurer les notifications par courrier électronique](#bkmk-config4)
+[Étape 4 : Configurer la notification par courrier électronique](#bkmk-config4)
 
-[Étape 5: accès délégué](#bkmk-config5)
+[Étape 5 : Déléguer l’accès](#bkmk-config5)
 
-### <a href="" id="bkmk-config1"></a>Étape 1: installer le serveur AGPM
+### <a name="step-1-install-agpm-server"></a><a href="" id="bkmk-config1"></a>Étape 1 : Installer le serveur AGPM
 
-Dans cette étape, vous installez le serveur AGPM sur le serveur membre ou le contrôleur de domaine qui exécute le service AGPM et vous configurez l’archive. Toutes les opérations AGPM sont gérées par le biais de ce service Windows et sont exécutées avec les informations d’identification du service. L’archive gérée par un serveur AGPM peut être hébergée sur ce serveur ou sur un autre serveur dans la même forêt.
+Dans cette étape, vous installez le serveur AGPM sur le serveur membre ou le contrôleur de domaine qui exécutera le service AGPM et vous configurez l’archive. Toutes les opérations AGPM sont gérées par Windows service et sont exécutées avec les informations d’identification du service. L’archive gérée par un serveur AGPM peut être hébergée sur ce serveur ou sur un autre serveur de la même forêt.
 
 **Pour installer le serveur AGPM sur l’ordinateur qui hébergera le service AGPM**
 
-1.  Ouvrez une session avec un compte membre du groupe administrateurs de domaine.
+1.  Connectez-vous avec un compte membre du groupe Administrateurs du domaine.
 
-2.  Démarrez le CD-ROM Microsoft Desktop Optimization Pack et suivez les instructions qui s’affichent à l’écran pour sélectionner **Advanced Group Management Policy-Server**.
+2.  Démarrez le CD du Pack d’optimisation du bureau Microsoft et suivez les instructions à l’écran pour sélectionner **Advanced Group Policy Management - Server**.
 
-3.  Dans la boîte de dialogue **Bienvenue** , cliquez sur **suivant**.
+3.  Dans la **boîte de dialogue** Bienvenue, cliquez sur **Suivant.**
 
-4.  Dans la boîte de dialogue **termes du contrat de licence logiciel Microsoft** , acceptez les termes du contrat de licence logiciel Microsoft, puis cliquez sur **suivant**.
+4.  Dans la boîte de dialogue Termes du contrat de licence logiciel **Microsoft,** acceptez les termes et cliquez sur **Suivant**.
 
-5.  Dans la boîte de dialogue Path de l' **application** , sélectionnez un emplacement pour installer le serveur AGPM. L’ordinateur sur lequel le serveur AGPM est installé doit héberger le service AGPM et gérer l’archive. Cliquez sur **Suivant**.
+5.  Dans la boîte **de dialogue Chemin d’accès** de l’application, sélectionnez l’emplacement dans lequel installer le serveur AGPM. L’ordinateur sur lequel le serveur AGPM est installé hébergera le service AGPM et gérera l’archive. Cliquez sur **Suivant**.
 
-6.  Dans la boîte de dialogue **path Archive** , sélectionnez un emplacement pour l’archivage relatif au serveur AGPM. Le chemin d’accès d’archive peut pointer vers un dossier sur le serveur AGPM ou un autre emplacement, mais vous devez sélectionner un emplacement dont l’espace disponible est suffisant pour stocker tous les objets de stratégie de groupe et les données d’historique gérés par ce serveur AGPM. Cliquez sur **Suivant**.
+6.  Dans la **boîte de dialogue Chemin d’accès** de l’archive, sélectionnez un emplacement pour l’archive relative au serveur AGPM. Le chemin d’accès d’archivage peut pointer vers un dossier sur le serveur AGPM ou ailleurs, mais vous devez sélectionner un emplacement avec suffisamment d’espace pour stocker tous les GPM et les données d’historique gérés par ce serveur AGPM. Cliquez sur **Suivant**.
 
-7.  Dans la boîte de dialogue **compte de service AGPM** , sélectionnez un compte de service sous lequel le service AGPM sera exécuté, puis cliquez sur **suivant**.
+7.  Dans la boîte de dialogue Compte de **service AGPM,** sélectionnez un compte de service sous lequel le service AGPM s’exécutera, puis cliquez sur **Suivant**.
 
-8.  Dans la boîte de dialogue **Archiver le propriétaire** , sélectionnez le compte ou le groupe auquel attribuer le rôle d’administrateur AGPM (contrôle total). Cet administrateur AGPM peut attribuer des rôles et autorisations d’AGPM aux autres administrateurs de stratégie de groupe (y compris le rôle d’administrateur AGPM). Pour ce scénario, sélectionnez le compte que vous voulez faire dans le rôle administrateur d’AGPM. Cliquez sur **Suivant**.
+8.  Dans la **boîte de dialogue Propriétaire** de l’archive, sélectionnez un compte ou un groupe auquel attribuer initialement le rôle Administrateur AGPM (Contrôle total). Cet administrateur AGPM peut attribuer des rôles et des autorisations AGPM à d’autres administrateurs de stratégie de groupe (y compris le rôle d’administrateur AGPM). Pour ce scénario, sélectionnez le compte à servir dans le rôle Administrateur AGPM. Cliquez sur **Suivant**.
 
-9.  Cliquez sur **installer**, puis cliquez sur **Terminer** pour quitter l’Assistant installation.
+9.  Cliquez **sur Installer,** puis sur **Terminer** pour quitter l’Assistant Installation.
 
-    **Attention**  Ne modifiez pas les paramètres du service AGPM via les outils et **services** **d’administration** du système d’exploitation. Cela peut empêcher le démarrage du service AGPM. Pour plus d’informations sur la modification des paramètres du service, voir aide pour la gestion avancée des stratégies de groupe.
+    **Attention**  
+    Ne modifiez pas les paramètres du service AGPM par le biais **des outils** et **services** d’administration du système d’exploitation. Cela peut empêcher le démarrage du service AGPM. Pour plus d’informations sur la modification des paramètres du service, voir l’aide sur la gestion avancée des stratégies de groupe.
 
      
 
-### <a href="" id="bkmk-config2"></a>Étape 2: installer le client AGPM
+### <a name="step-2-install-agpm-client"></a><a href="" id="bkmk-config2"></a>Étape 2 : Installer le client AGPM
 
-Chaque administrateur de stratégie de groupe (qui crée, modifie, déploie, révise ou supprime des objets de stratégie de groupe) doit disposer d’un client AGPM sur les ordinateurs qu’il utilise pour gérer les objets de stratégie de groupe. Pour ce scénario, vous installez le client AGPM sur au moins un ordinateur. Vous n’avez pas besoin d’installer le client AGPM sur les ordinateurs des utilisateurs finaux qui n’effectuent pas d’administration de la stratégie de groupe.
+Chaque administrateur de stratégie de groupe (toute personne qui crée, modifie, déploie, examine ou supprime des GPM) doit avoir installé le client AGPM sur les ordinateurs qu’il utilise pour gérer les GPM. Dans ce scénario, vous installez le client AGPM sur au moins un ordinateur. Vous n’avez pas besoin d’installer le client AGPM sur les ordinateurs des utilisateurs finaux qui n’effectuent pas d’administration de stratégie de groupe.
 
 **Pour installer le client AGPM sur l’ordinateur d’un administrateur de stratégie de groupe**
 
-1.  Démarrez le CD-ROM Microsoft Desktop Optimization Pack et suivez les instructions à l’écran pour sélectionner **Advanced Group Management Policy-client**.
+1.  Démarrez le CD du Pack d’optimisation du bureau Microsoft et suivez les instructions à l’écran pour sélectionner **Advanced Group Policy Management - Client**.
 
-2.  Dans la boîte de dialogue **Bienvenue** , cliquez sur **suivant**.
+2.  Dans la **boîte de dialogue** Bienvenue, cliquez sur **Suivant.**
 
-3.  Dans la boîte de dialogue **termes du contrat de licence logiciel Microsoft** , acceptez les termes du contrat de licence logiciel Microsoft, puis cliquez sur **suivant**.
+3.  Dans la boîte de dialogue Termes du contrat de licence logiciel **Microsoft,** acceptez les termes et cliquez sur **Suivant**.
 
-4.  Dans la boîte de dialogue Path de l' **application** , sélectionnez un emplacement pour installer le client AGPM. Cliquez sur **Suivant**.
+4.  Dans la boîte **de dialogue Chemin d’accès** de l’application, sélectionnez l’emplacement dans lequel installer le client AGPM. Cliquez sur **Suivant**.
 
-5.  Dans la boîte de dialogue **serveur AGPM** , tapez le nom complet de l’ordinateur et le port du serveur AGPM auquel vous voulez vous connecter. Le port par défaut du service AGPM est 4600. Cliquez sur **Suivant**.
+5.  Dans la **boîte de dialogue Serveur AGPM,** tapez le nom complet de l’ordinateur et le port du serveur AGPM auquel se connecter. Le port par défaut pour le service AGPM est 4600. Cliquez sur **Suivant**.
 
-6.  Cliquez sur **installer**, puis cliquez sur **Terminer** pour quitter l’Assistant installation.
+6.  Cliquez **sur Installer,** puis sur **Terminer** pour quitter l’Assistant Installation.
 
-### <a href="" id="bkmk-config3"></a>Étape 3: configurer une connexion de serveur AGPM
+### <a name="step-3-configure-an-agpm-server-connection"></a><a href="" id="bkmk-config3"></a>Étape 3 : Configurer une connexion de serveur AGPM
 
-AGPM stocke toutes les versions de chaque objet de stratégie de groupe contrôlé (GPO), c’est-à-dire un objet de stratégie de groupe pour lequel AGPM fournit le contrôle des modifications, dans une archive centrale, de sorte que les administrateurs de stratégie de groupe puissent afficher et modifier les objets de stratégie de groupe hors connexion sans avoir d’impact sur la version déployée de chaque GPO.
+AGPM stocke toutes les versions de chaque objet de stratégie de groupe contrôlé (GPO) (objet de stratégie de groupe pour lequel agpm fournit le contrôle des modifications) dans une archive centrale, de sorte que les administrateurs de stratégie de groupe peuvent afficher et modifier les objets de stratégie de groupe hors connexion sans impact immédiat sur la version déployée de chaque objet de stratégie de groupe.
 
-Dans cette étape, vous configurez une connexion de serveur AGPM et assurez-vous que tous les administrateurs de stratégie de groupe se connectent au même serveur AGPM. (Pour plus d’informations sur la configuration de plusieurs serveurs AGPM, voir aide pour la gestion avancée des stratégies de groupe.)
+Dans cette étape, vous configurez une connexion agpm server et assurez-vous que tous les administrateurs de stratégie de groupe se connectent au même serveur AGPM. (Pour plus d’informations sur la configuration de plusieurs serveurs AGPM, voir l’aide sur la gestion avancée des stratégies de groupe.)
 
 **Pour configurer une connexion de serveur AGPM pour tous les administrateurs de stratégie de groupe**
 
-1.  Sur un ordinateur sur lequel vous avez installé un client AGPM, connectez-vous à l’aide du compte d’utilisateur que vous avez sélectionné comme propriétaire d’archive. Cet utilisateur a le rôle d’administrateur AGPM (contrôle total).
+1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec le compte d’utilisateur que vous avez sélectionné en tant que propriétaire de l’archive. Cet utilisateur a le rôle d’administrateur AGPM (Contrôle total).
 
-2.  Cliquez sur **Démarrer**, pointez sur **Outils d’administration**, puis cliquez sur **gestion des stratégies de groupe** pour ouvrir la console de gestion des stratégies de **groupe (GPMC)**.
+2.  Cliquez **sur Démarrer,** pointez **sur Outils**d’administration, puis cliquez sur **Gestion** des stratégies de groupe pour ouvrir la Console de gestion des stratégies de **groupe (GPMC).**
 
-3.  Dans l’arborescence de la **console de gestion des stratégies de groupe** , modifiez un objet GPO qui est appliqué à tous les administrateurs de stratégie de groupe.
+3.  Dans **l’arborescence de** la Console de gestion des stratégies de groupe, modifiez un GPO qui est appliqué à tous les administrateurs de stratégie de groupe.
 
-4.  Dans la fenêtre de l' **éditeur d’objets de stratégie de groupe** , cliquez sur **Configuration utilisateur**, **modèles d’administration**et **composants Windows**.
+4.  Dans la fenêtre **Éditeur d’objets** de stratégie de groupe, cliquez sur **Configuration**utilisateur, **Modèles**d’administration **et Windows composants.**
 
-5.  Si **AGPM** ne figure pas dans la liste **composants Windows**:
+5.  Si **AGPM n’est** pas répertorié sous **Windows composants :**
 
-    1.  Cliquez avec le bouton droit sur **modèles d’administration** et sélectionnez **Ajouter/supprimer des modèles**.
+    1.  Cliquez avec le bouton **droit sur Modèles d’administration** et **sélectionnez Ajouter/Supprimer des modèles.**
 
-    2.  Cliquez **sur Ajouter**, sélectionnez **AGPM. admx** ou **AGPM. adm**, cliquez sur **ouvrir**, puis sur **Fermer**.
+    2.  Cliquez **sur**Ajouter, sélectionnez **agpm.admx** ou **agpm.adm,** cliquez sur **Ouvrir,** puis cliquez sur **Fermer**.
 
-6.  Sous **composants Windows**, double-cliquez sur **AGPM**.
+6.  Sous **Windows composants,** double-cliquez **sur AGPM.**
 
-7.  Dans le volet Détails, double-cliquez sur le **serveur AGPM (tous les domaines)**.
+7.  Dans le volet d’informations, double-cliquez sur **AGPM Server (tous les domaines).**
 
-8.  Dans la fenêtre de **Propriétés de serveur AGPM (toutes les domaines)** , sélectionnez **activé** , puis entrez le nom et le port complets de l’ordinateur (par exemple, Server.contoso.com:4600) pour le serveur hébergeant l’archive. Le port utilisé par le service AGPM est le port 4600.
+8.  Dans la fenêtre Propriétés du serveur **AGPM (tous** les domaines), sélectionnez Activé et tapez le nom et le port complets de l’ordinateur (par exemple, server.contoso.com:4600) pour le serveur hébergeant l’archive. **** Le port utilisé par le service AGPM est le port 4600.
 
-9.  Cliquez sur **OK**, puis fermez la fenêtre **éditeur d’objets de stratégie de groupe** . Lorsque la stratégie de groupe est mise à jour, la connexion au serveur AGPM est configurée pour chaque administrateur de stratégie de groupe.
+9.  Cliquez **sur OK,** puis fermez la fenêtre Éditeur d’objets de stratégie **de** groupe. Lorsque la stratégie de groupe est mise à jour, la connexion du serveur AGPM est configurée pour chaque administrateur de stratégie de groupe.
 
-### <a href="" id="bkmk-config4"></a>Étape 4: configurer les notifications par courrier électronique
+### <a name="step-4-configure-e-mail-notification"></a><a href="" id="bkmk-config4"></a>Étape 4 : Configurer la notification par courrier électronique
 
-En tant qu’administrateur AGPM (contrôle total), vous désignez les adresses de courrier des approbateurs et des administrateurs AGPM auxquels un message électronique contenant une demande est envoyé lorsqu’un éditeur tente de créer, de déployer ou de supprimer un objet de stratégie de groupe. Vous déterminez également l’alias à partir duquel ces messages sont envoyés.
+En tant qu’administrateur AGPM (Contrôle total), vous désignez les adresses de messagerie des approveurs et des administrateurs AGPM auxquels un message électronique contenant une demande est envoyé lorsqu’un éditeur tente de créer, déployer ou supprimer un GPO. Vous déterminez également l’alias à partir duquel ces messages sont envoyés.
 
-**Pour configurer les notifications par courrier électronique pour AGPM**
+**Pour configurer la notification par courrier électronique pour AGPM**
 
-1.  Dans l’arborescence de la **console de gestion des stratégies de groupe** , cliquez sur modifier le **contrôle** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe.
+1.  Dans **l’arborescence de** la Console de gestion des stratégies de groupe, cliquez sur **Modifier** le contrôle dans la forêt et le domaine dans lesquels vous souhaitez gérer les GGP.
 
-2.  Dans le volet Détails, cliquez sur l’onglet **délégation de domaine** .
+2.  Dans le volet d’informations, cliquez sur **l’onglet Délégation de** domaine.
 
-3.  Dans le champ **de** , tapez l’alias de messagerie pour AGPM à partir duquel envoyer les notifications.
+3.  Dans le **champ** De, tapez l’alias de messagerie pour AGPM à partir duquel les notifications doivent être envoyées.
 
-4.  Dans le champ **à** , tapez l’adresse de courrier du compte d’utilisateur auquel vous souhaitez attribuer le rôle d’approbateur.
+4.  Dans le **champ À,** tapez l’adresse de messagerie du compte d’utilisateur auquel vous avez l’intention d’attribuer le rôle d’approbation.
 
-5.  Dans le champ **serveur SMTP** , tapez un serveur de messagerie SMTP valide.
+5.  Dans le **champ serveur SMTP,** tapez un serveur de messagerie SMTP valide.
 
-6.  Dans les champs **nom d’utilisateur** et **mot de passe** , tapez les informations d’identification d’un utilisateur ayant accès au service SMTP.
+6.  Dans les **champs Nom d’utilisateur** et **Mot** de passe, tapez les informations d’identification d’un utilisateur ayant accès au service SMTP.
 
 7.  Cliquez sur **Apply** (Appliquer).
 
-### <a href="" id="bkmk-config5"></a>Étape 5: accès délégué
+### <a name="step-5-delegate-access"></a><a href="" id="bkmk-config5"></a>Étape 5 : Déléguer l’accès
 
-En tant qu’administrateur AGPM (contrôle total), vous déléguez l’accès au niveau du domaine aux objets de stratégie de groupe, en attribuant des rôles au compte de chaque administrateur de stratégie de groupe.
+En tant qu’administrateur AGPM (Contrôle total), vous déléguer l’accès au niveau du domaine aux GPM, en attribuant des rôles au compte de chaque administrateur de stratégie de groupe.
 
-**Remarques**  Vous pouvez également déléguer l’accès au niveau de l’objet GPO plutôt qu’au niveau du domaine. Pour plus d’informations, consultez aide pour la gestion avancée des stratégies de groupe.
-
- 
-
-**Important**  Nous vous conseillons de limiter l’appartenance au groupe de propriétaires de la stratégie de groupe, afin qu’il ne puisse pas être utilisé pour contourner la gestion d’AGPM d’Access aux objets de stratégie de groupe. (Dans la **console de gestion des stratégies de groupe**, cliquez sur **objets de stratégie de groupe** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe, cliquez sur **délégation**, puis configurez les paramètres en fonction des besoins de votre organisation.)
+**Remarque**  
+Vous pouvez également déléguer l’accès au niveau de l’GPO plutôt qu’au niveau du domaine. Pour plus d’informations, voir l’aide sur la gestion avancée des stratégies de groupe.
 
  
 
-**Pour déléguer l’accès à tous les objets de stratégie de groupe dans un domaine**
+**Important**  
+Vous devez restreindre l’appartenance au groupe Propriétaires créateurs de stratégie de groupe, afin qu’il ne puisse pas être utilisé pour contourner la gestion AGPM de l’accès aux GPM. (Dans la **console**de gestion des **stratégies** de groupe, cliquez sur Objets de stratégie de groupe dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe, cliquez sur **Délégation,** puis configurez les paramètres pour répondre aux besoins de votre organisation.)
 
-1.  Dans l’arborescence de la **console de gestion des stratégies de groupe** , cliquez sur modifier le **contrôle** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe.
+ 
 
-2.  Dans l’onglet **délégation de domaine** , cliquez sur le bouton **avancé** .
+**Pour déléguer l’accès à tous les G GPO dans un domaine**
 
-3.  Dans la boîte de dialogue **autorisations** :
+1.  Dans **l’arborescence de** la Console de gestion des stratégies de groupe, cliquez sur **Modifier** le contrôle dans la forêt et le domaine dans lesquels vous souhaitez gérer les GGP.
 
-    1.  Cliquez sur le compte d’utilisateur d’un administrateur de stratégie de groupe, puis activez la case à cocher **approbateur** pour attribuer ce rôle au compte. Désactivez la case à cocher **éditeur** . (Ce rôle inclut le rôle de réviseur.)
+2.  Sous **l’onglet Délégation de** domaine, cliquez sur **le bouton** Avancé.
 
-    2.  Cliquez sur le compte d’utilisateur d’un autre administrateur de stratégie de groupe, puis activez la case à cocher **éditeur** pour attribuer ce rôle au compte. (Ce rôle inclut le rôle de réviseur.)
+3.  Dans la **boîte de dialogue Autorisations** :
 
-    3.  Cliquez sur un troisième compte, puis activez la case à cocher **relecteur** pour affecter uniquement le rôle de réviseur au compte de l’administrateur de la stratégie de groupe. Désactivez la case à cocher **éditeur** .
+    1.  Cliquez sur le compte d’utilisateur d’un administrateur de stratégie de groupe, puis cochez la case d’approbation pour attribuer ce rôle au compte. **** Cochez **la case** Éditeur. (Ce rôle inclut le rôle Réviseur.)
 
-    4.  Cliquez sur le bouton **avancé** .
+    2.  Cliquez sur le compte d’utilisateur d’un autre administrateur de stratégie de groupe, puis cochez la case Éditeur pour attribuer ce rôle au compte. **** (Ce rôle inclut le rôle Réviseur.)
 
-4.  Dans la boîte de dialogue **paramètres de sécurité avancés** :
+    3.  Cliquez sur un troisième compte, puis cochez la case **Réviseur** pour attribuer uniquement le rôle Réviseur au compte de cet administrateur de stratégie de groupe. Cochez **la case** Éditeur.
 
-    1.  Sélectionnez un administrateur de stratégie de groupe, puis cliquez sur **modifier**.
+    4.  Cliquez sur **le bouton** Avancé.
 
-    2.  Pour **appliquer**à, sélectionnez **cet objet et les objets imbriqués**, puis cliquez sur **OK** dans la boîte de dialogue **entrée** d' **autorisation** .
+4.  Dans la **boîte de dialogue Paramètres** sécurité avancée :
 
-    3.  Répétez l’opération pour chaque administrateur de la stratégie de groupe.
+    1.  Sélectionnez un administrateur de stratégie de groupe, puis cliquez sur **Modifier.**
 
-5.  Dans la boîte de dialogue **paramètres de sécurité avancés** , cliquez sur **OK**.
+    2.  Pour **appliquer sur**, sélectionnez Cet objet et les **** objets imbriqués, puis cliquez sur **OK** dans la boîte de dialogue Entrée **d’autorisation.** ****
 
-6.  Dans la boîte de dialogue **autorisations** , cliquez sur **OK**.
+    3.  Répétez l’étape pour chaque administrateur de stratégie de groupe.
 
-## Procédure de gestion des objets de stratégie de groupe
+5.  Dans la **boîte de dialogue Paramètres** sécurité avancée, cliquez sur **OK.**
+
+6.  Dans la **boîte de dialogue Autorisations,** cliquez sur **OK.**
+
+## <a name="steps-for-managing-gpos"></a>Étapes de gestion des G GPO
 
 
-Vous devez effectuer les étapes suivantes pour créer, modifier, réviser et déployer des objets de stratégie de groupe à l’aide d’AGPM. Par ailleurs, vous allez créer un modèle, supprimer un objet de stratégie de groupe, puis restaurer un objet GPO supprimé.
+Vous devez effectuer les étapes suivantes pour créer, modifier, réviser et déployer des GPM à l’aide d’AGPM. En outre, vous allez créer un modèle, supprimer un GPO et restaurer un GPO supprimé.
 
-[Étape 1: créer un objet de stratégie de groupe](#bkmk-manage1)
+[Étape 1 : Créer un GPO](#bkmk-manage1)
 
-[Étape 2: modifier un objet de stratégie de groupe](#bkmk-manage2)
+[Étape 2 : Modifier un GPO](#bkmk-manage2)
 
-[Étape 3: vérifier et déployer un objet de stratégie de groupe](#bkmk-manage3)
+[Étape 3 : Examiner et déployer un GPO](#bkmk-manage3)
 
-[Étape 4: utiliser un modèle pour créer un objet de stratégie de groupe](#bkmk-manage4)
+[Étape 4 : Utiliser un modèle pour créer un GPO](#bkmk-manage4)
 
-[Étape 5: supprimer et restaurer un objet de stratégie de groupe](#bkmk-manage5)
+[Étape 5 : Supprimer et restaurer un GPO](#bkmk-manage5)
 
-### <a href="" id="bkmk-manage1"></a>Étape 1: créer un objet de stratégie de groupe
+### <a name="step-1-create-a-gpo"></a><a href="" id="bkmk-manage1"></a>Étape 1 : Créer un GPO
 
-Dans un environnement doté de plusieurs administrateurs de stratégie de groupe, les utilisateurs dotés du rôle d’éditeur peuvent demander la création de nouveaux objets de stratégie de groupe, mais une telle demande doit être approuvée par une personne ayant le rôle d’approbateur, car la création d’un nouvel objet GPO a un impact sur l’environnement de production.
+Dans un environnement avec plusieurs administrateurs de stratégie de groupe, ceux qui ont le rôle d’éditeur ont la possibilité de demander la création de nouveaux GPO, mais une telle demande doit être approuvée par une personne ayant le rôle d’approuveur, car la création d’un nouvel GPO a une incidence sur l’environnement de production.
 
-Dans cette étape, vous utiliserez un compte avec le rôle d’éditeur pour demander la création d’un nouvel objet de stratégie de groupe. En utilisant un compte doté du rôle Approbateur, vous approuvez cette demande et terminerez la création d’un objet de stratégie de groupe.
+Dans cette étape, vous utilisez un compte avec le rôle d’éditeur pour demander la création d’un nouvel GPO. À l’aide d’un compte avec le rôle d’approbation, vous approuvez cette demande et terminez la création d’un GPO.
 
-**Pour demander la création d’un nouvel objet de stratégie de groupe géré via AGPM**
+**Pour demander la création d’un nouvel GPO géré via AGPM**
 
-1.  Sur un ordinateur sur lequel vous avez installé un client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle d’éditeur a été attribué dans AGPM.
+1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle Éditeur a été attribué dans AGPM.
 
-2.  Dans l’arborescence de la **console de gestion des stratégies de groupe** , cliquez sur modifier le **contrôle** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe.
+2.  Dans **l’arborescence de** la Console de gestion des stratégies de groupe, cliquez sur **Modifier** le contrôle dans la forêt et le domaine dans lesquels vous souhaitez gérer les GGP.
 
-3.  Cliquez avec le bouton droit sur le nœud de **contrôle de modification** , puis cliquez sur **nouvel objet de stratégie de**contrôle.
+3.  Cliquez avec le bouton **droit sur le** nœud Contrôle des changements, puis cliquez sur Nouvel **GPO contrôlé.**
 
-4.  Dans la boîte de dialogue **nouvel objet GPO contrôlé** :
+4.  Dans la **boîte de dialogue Nouvel GPO** contrôlé :
 
-    1.  Pour recevoir une copie de la demande, tapez votre adresse de messagerie dans le champ **CC** .
+    1.  Pour recevoir une copie de la demande, tapez votre adresse de messagerie dans le **champ Cc.**
 
-    2.  Tapez **MyGPO** comme nom du nouvel objet de stratégie de groupe.
+    2.  Tapez **MyGPO** comme nom pour le nouvel GPO.
 
-    3.  Tapez un commentaire pour le nouvel objet de stratégie de groupe.
+    3.  Tapez un commentaire pour le nouvel GPO.
 
-    4.  Cliquez sur **créer Live** pour que le nouvel objet GPO soit déployé sur l’environnement de production immédiatement après approbation.
+    4.  Cliquez **sur Créer en direct** afin que le nouvel GPO soit déployé dans l’environnement de production immédiatement après approbation.
 
     5.  Cliquez sur **Envoyer**.
 
-5.  Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. Le nouvel objet GPO est affiché dans l’onglet **en attente** .
+5.  Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. Le nouvel GPO s’affiche sous **l’onglet En** attente.
 
-**Pour approuver la demande en attente de création d’un objet de stratégie de groupe**
+**Pour approuver la demande en attente de création d’un GPO**
 
-1.  Sur un ordinateur sur lequel vous avez installé un client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle d’approbateur dans AGPM s’est attribué.
+1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel a été attribué le rôle d’approuveur dans AGPM.
 
-2.  Ouvrez la boîte de réception de votre compte et notez que vous avez reçu un message électronique de l’alias AGPM avec la demande de l’éditeur pour créer un objet de stratégie de groupe.
+2.  Ouvrez la boîte de réception de messagerie du compte et notez que vous avez reçu un message électronique de l’alias AGPM avec la demande de l’éditeur de créer un GPO.
 
-3.  Dans l’arborescence de la **console de gestion des stratégies de groupe** , cliquez sur modifier le **contrôle** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe.
+3.  Dans **l’arborescence de** la Console de gestion des stratégies de groupe, cliquez sur **Modifier** le contrôle dans la forêt et le domaine dans lesquels vous souhaitez gérer les GGP.
 
-4.  Dans l’onglet **contenu** , cliquez sur l’onglet **en attente** pour afficher les objets de stratégie de groupe en attente.
+4.  Sous **l’onglet** Contenu, cliquez sur **l’onglet En attente** pour afficher les GGP en attente.
 
-5.  Cliquez avec le bouton droit sur **MyGPO**, puis cliquez sur **approuver**.
+5.  Cliquez avec le bouton **droit sur MyGPO,** puis cliquez sur **Approuver.**
 
-6.  Cliquez sur **Oui** pour confirmer l’approbation de la création de l’objet de stratégie de groupe. L’objet de stratégie de groupe est déplacé vers l’onglet **contrôlé** .
+6.  Cliquez **sur Oui** pour confirmer l’approbation de la création de l’GPO. L’GPO est déplacé vers **l’onglet** Contrôlé.
 
-### <a href="" id="bkmk-manage2"></a>Étape 2: modifier un objet de stratégie de groupe
+### <a name="step-2-edit-a-gpo"></a><a href="" id="bkmk-manage2"></a>Étape 2 : Modifier un GPO
 
-Vous pouvez utiliser les objets de stratégie de groupe pour configurer les paramètres de l’ordinateur ou de l’utilisateur et les déployer sur de nombreux ordinateurs ou utilisateurs. Dans cette étape, vous utiliserez un compte avec le rôle d’éditeur pour extraire un objet de stratégie de groupe de l’archive, modifier l’objet de stratégie de groupe en mode hors connexion, Rechercher l’objet GPO modifié dans l’archive et demander le déploiement de l’objet de stratégie de groupe dans l’environnement de production. Pour ce scénario, vous devez configurer un paramètre dans l’objet de stratégie de groupe pour exiger que le mot de passe comporte au moins huit caractères.
+Vous pouvez utiliser les G GPO pour configurer les paramètres d’ordinateur ou d’utilisateur et les déployer sur de nombreux ordinateurs ou utilisateurs. Dans cette étape, vous utilisez un compte avec le rôle d’éditeur pour consulter un GPO à partir de l’archive, modifier l’GPO hors connexion, vérifier l’GPO modifié dans l’archive et demander le déploiement de l’GPO dans l’environnement de production. Pour ce scénario, vous configurez un paramètre dans l’GPO pour exiger que le mot de passe soit d’au moins huit caractères.
 
-**Pour extraire l’objet de stratégie de groupe de l’archive en vue de le modifier**
+**Pour vérifier l’GPO à partir de l’archive pour modification**
 
-1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle d’éditeur a été attribué dans AGPM.
+1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle Éditeur a été attribué dans AGPM.
 
-2.  Dans l’arborescence de la **console de gestion des stratégies de groupe** , cliquez sur modifier le **contrôle** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe.
+2.  Dans **l’arborescence de** la Console de gestion des stratégies de groupe, cliquez sur **Modifier** le contrôle dans la forêt et le domaine dans lesquels vous souhaitez gérer les GGP.
 
-3.  Dans l’onglet **contenu** du volet Détails, cliquez sur l’onglet **contrôlé** pour afficher les objets de stratégie de groupe contrôlés.
+3.  Sous **l’onglet** Contenu du volet d’informations, cliquez sur l’onglet Contrôlé pour afficher les GOP contrôlés. ****
 
-4.  Cliquez avec le bouton droit sur **MyGPO**, puis cliquez sur **extraire**.
+4.  Cliquez avec le bouton **droit sur MyGPO,** puis cliquez **sur Check Out**.
 
-5.  Tapez un commentaire à afficher dans l' **historique** de l’objet de stratégie de groupe lors de son extraction, puis cliquez sur **OK**.
+5.  Tapez un commentaire à **** afficher dans l’historique de l’GPO pendant qu’il est extrait, puis cliquez sur **OK**.
 
-6.  Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. Dans l’onglet **contrôlé** , l’état de l’objet de stratégie de groupe est identifié comme **extrait**.
+6.  Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. Sous **l’onglet** Contrôlé, l’état de l’GPO est identifié comme **extrait.**
 
-**Pour modifier l’objet de stratégie de groupe hors connexion et configurer la longueur de mot de passe minimum**
+**Pour modifier l’GPO hors connexion et configurer la longueur minimale du mot de passe**
 
-1.  Dans l’onglet **contrôlé** , cliquez avec le bouton droit sur **MyGPO**, puis cliquez sur **modifier** pour ouvrir la fenêtre Éditeur d’objets de stratégie de groupe et apporter des modifications à une copie hors connexion de l’objet de stratégie de **groupe** . Pour ce scénario, configurez la longueur minimale du mot de passe:
+1.  Sous **l’onglet** Contrôlé, cliquez avec le bouton **** droit sur **** **MyGPO,** puis cliquez sur Modifier pour ouvrir la fenêtre Éditeur d’objets de stratégie de groupe et apporter des modifications à une copie hors connexion de l’objet de stratégie de groupe. Pour ce scénario, configurez la longueur minimale du mot de passe :
 
-    1.  Sous **Configuration ordinateur**, double-cliquez sur **Paramètres Windows**, cliquez deux fois sur **paramètres de sécurité**, double-cliquez sur stratégies de **compte**, puis double-cliquez sur **stratégie de mot de passe**.
+    1.  Sous **Configuration ordinateur,** double-cliquez sur **Windows Paramètres,** double-cliquez sur Sécurité **Paramètres,** double-cliquez sur Stratégies de compte **et**double-cliquez sur Stratégie de mot **de passe.**
 
-    2.  Dans le volet Détails, double-cliquez sur **longueur minimale du mot de passe**.
+    2.  Dans le volet d’informations, double-cliquez sur Longueur minimale **du mot de passe.**
 
-    3.  Dans la fenêtre Propriétés, activez la case à cocher **définir ce paramètre de stratégie** , définissez le nombre de caractères sur **8**, puis cliquez sur **OK**.
+    3.  Dans la fenêtre propriétés, cochez la case Définir ce paramètre de stratégie, définissez le nombre de caractères sur **8,** puis cliquez sur **** **OK**.
 
-2.  Fermez la fenêtre de l' **éditeur d’objets de stratégie de groupe** .
+2.  Fermez la **fenêtre Éditeur d’objets de stratégie de** groupe.
 
-**Pour archiver l’objet de stratégie de groupe dans l’archive**
+**Pour vérifier l’GPO dans l’archive**
 
-1.  Dans l’onglet **contrôlé** , cliquez avec le bouton droit sur **MyGPO** , puis cliquez sur **Archiver**.
+1.  Sous **l’onglet Contrôlé,** cliquez avec le bouton droit sur **MyGPO,** puis cliquez **sur Vérifier.**
 
-2.  Tapez un commentaire, puis cliquez sur **OK**.
+2.  Tapez un commentaire, puis cliquez sur **OK.**
 
-3.  Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. Dans l’onglet **contrôlé** , l’état de l’objet de stratégie de groupe est identifié comme **Archivé**.
+3.  Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. Sous **l’onglet** Contrôlé, l’état de l’GPO est identifié comme **Étant enregistré**.
 
-**Pour demander le déploiement de l’objet de stratégie de groupe dans l’environnement de production**
+**Pour demander le déploiement de l’GPO dans l’environnement de production**
 
-1.  Dans l’onglet **contrôlé** , cliquez avec le bouton droit sur **MyGPO** , puis cliquez sur **déployer**.
+1.  Sous **l’onglet Contrôlé,** cliquez avec le bouton droit sur **MyGPO,** puis cliquez sur **Déployer.**
 
-2.  Dans la mesure où ce compte n’est pas un approbateur ou un administrateur AGPM, vous devez fournir une demande de déploiement. Pour recevoir une copie de la demande, tapez votre adresse de messagerie dans le champ **CC** . Tapez un commentaire à afficher dans l' **historique** de l’objet de stratégie de groupe, puis cliquez sur **valider**.
+2.  Étant donné que ce compte n’est pas un approuveur ou un administrateur AGPM, vous devez envoyer une demande de déploiement. Pour recevoir une copie de la demande, tapez votre adresse de messagerie dans le **champ Cc.** Tapez un commentaire à **** afficher dans l’historique de l’GPO, puis cliquez sur **Envoyer.**
 
-3.  Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. **MyGPO** s’affiche dans la liste des objets de stratégie de groupe sous l’onglet **en attente** .
+3.  Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. **MyGPO s’affiche** dans la liste des GPO sous **l’onglet En** attente.
 
-### <a href="" id="bkmk-manage3"></a>Étape 3: vérifier et déployer un objet de stratégie de groupe
+### <a name="step-3-review-and-deploy-a-gpo"></a><a href="" id="bkmk-manage3"></a>Étape 3 : Examiner et déployer un GPO
 
-Dans le cadre de cette étape, vous agissez en tant qu’approbateur, vous créez des rapports et vous analysez les paramètres et les modifications apportées aux paramètres dans l’objet de stratégie de groupe pour déterminer s’ils doivent être approuvés. Après avoir évalué l’objet de stratégie de groupe, vous le déployez dans l’environnement de production et le liez à un domaine ou à une unité d’organisation (UO) de sorte qu’il soit appliqué lorsque la stratégie de groupe est actualisée pour les ordinateurs de ce domaine ou UO.
+Dans cette étape, vous allez agir en tant qu’approuveur, en créant des rapports et en analysant les paramètres et les modifications apportées aux paramètres dans l’GPO pour déterminer si vous devez les approuver. Après avoir évalué l’GPO, vous le déployez dans l’environnement de production et le liez à un domaine ou à une unité d’organisation afin qu’il prenne effet lors de l’actualisation de la stratégie de groupe pour les ordinateurs de ce domaine ou unité d’organisation.
 
-**Pour vérifier les paramètres de l’objet de stratégie de groupe**
+**Pour passer en revue les paramètres de l’GPO**
 
-1.  Sur un ordinateur sur lequel vous avez installé un client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle d’approbateur dans AGPM s’est attribué. (N’importe quel administrateur de stratégie de groupe avec le rôle de relecteur, qui est inclus dans tous les autres rôles, peut consulter les paramètres d’un objet de stratégie de groupe).
+1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel a été attribué le rôle d’approuveur dans AGPM. (Tout administrateur de stratégie de groupe ayant le rôle Réviseur, qui est inclus dans tous les autres rôles, peut passer en revue les paramètres d’un GPO.)
 
-2.  Ouvrez la boîte de réception du compte et notez que vous avez reçu un message électronique de l’alias AGPM avec une demande d’éditeur pour le déploiement d’un objet de stratégie de groupe.
+2.  Ouvrez la boîte de réception de messagerie du compte et notez que vous avez reçu un message électronique de l’alias AGPM avec une demande d’éditeur pour déployer un GPO.
 
-3.  Dans l’arborescence de la **console de gestion des stratégies de groupe** , cliquez sur modifier le **contrôle** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe.
+3.  Dans **l’arborescence de** la Console de gestion des stratégies de groupe, cliquez sur **Modifier** le contrôle dans la forêt et le domaine dans lesquels vous souhaitez gérer les GGP.
 
-4.  Dans l’onglet **contenu** du volet Détails, cliquez sur l’onglet **en attente** .
+4.  Sous **l’onglet** Contenu du volet d’informations, cliquez sur **l’onglet En** attente.
 
 5.  Double-cliquez sur **MyGPO** pour afficher son historique.
 
-6.  Passez en revue les paramètres dans la version la plus récente de MyGPO:
+6.  Examinez les paramètres de la version la plus récente de MyGPO :
 
-    1.  Dans la fenêtre **historique** , cliquez avec le bouton droit sur la version de l’objet de stratégie de groupe avec le dateur le plus récent, cliquez sur **paramètres**, puis sur **rapport HTML** pour afficher un récapitulatif des paramètres de l’objet de stratégie de groupe.
+    1.  Dans **** la fenêtre Historique, cliquez avec le bouton droit sur la version de l’GPO avec l’timestamp le plus récent, cliquez sur **Paramètres,** puis cliquez sur Rapport **HTML** pour afficher un résumé des paramètres de l’GPO.
 
-    2.  Dans le navigateur Web, cliquez sur **Afficher tout** pour afficher tous les paramètres de l’objet de stratégie de groupe.
+    2.  Dans le navigateur Web, cliquez sur **Afficher tout** pour afficher tous les paramètres dans l’GPO.
 
     3.  Fermez le navigateur.
 
-7.  Comparez la version la plus récente de MyGPO à la première version archivée dans l’archive:
+7.  Comparez la version la plus récente de MyGPO à la première version archivée dans l’archive :
 
-    1.  Dans la fenêtre **historique** , cliquez sur la version de l’objet de stratégie de groupe avec le dateur le plus récent. Maintenez la **touche CTRL enfoncée** et cliquez sur la version de l’objet de stratégie de groupe le plus ancien avec l’état **Archivé**.
+    1.  Dans la **fenêtre** Historique, cliquez sur la version de l’GPO avec l’timestamp le plus récent. Appuyez **sur Ctrl** et cliquez sur la version la plus ancienne de l’GPO dont l’état **est Checked In**.
 
-    2.  Cliquez sur le bouton **différences** . La section **stratégies de compte/stratégie de mot de passe** est mise en évidence en vert et précédée de **\ [+ \]**, ce qui indique que ce paramètre est configuré uniquement dans la dernière version de l’objet de stratégie de groupe.
+    2.  Cliquez sur **le bouton Différences.** La section Stratégies de **compte/Stratégie** de mot de passe est mise en surbrillance en vert et précédée de **\[+\],** indiquant que ce paramètre est configuré uniquement dans la dernière version de l’GPO.
 
-    3.  Cliquez sur **stratégies de compte/stratégie de mot de passe**. Le paramètre de **longueur minimum du mot de passe** est également mis en surbrillance en vert et précédé de **\ [+ \]** indiquant qu’il est configuré uniquement dans la dernière version de l’objet de stratégie de groupe.
+    3.  Cliquez sur **Stratégies de compte/Stratégie de mot de passe.** Le **paramètre Longueur** minimale du mot de passe est également mis en surbrillance en vert et précédé de **\[+\]**, indiquant qu’il est configuré uniquement dans la dernière version de l’GPO.
 
     4.  Fermez le navigateur Web.
 
-**Pour déployer l’objet de stratégie de groupe dans l’environnement de production**
+**Pour déployer l’GPO dans l’environnement de production**
 
-1.  Dans l’onglet **en attente** , cliquez avec le bouton droit sur **MyGPO** , puis cliquez sur **approuver**.
+1.  Sous **l’onglet En** attente, cliquez avec le bouton droit sur **MyGPO,** puis cliquez sur **Approuver.**
 
-2.  Tapez un commentaire à inclure dans l’historique de l’objet de stratégie de groupe.
+2.  Tapez un commentaire à inclure dans l’historique de l’GPO.
 
-3.  Cliquez sur **Oui**. Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. L’objet de stratégie de groupe est déployé dans l’environnement de production.
+3.  Cliquez sur **Oui**. Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. L’GPO est déployé dans l’environnement de production.
 
-**Pour lier l’objet de stratégie de groupe à un domaine ou une unité d’organisation**
+**Pour lier l’GPO à un domaine ou une unité d’organisation**
 
-1.  Dans la console GPMC, cliquez avec le bouton droit sur le domaine ou l’unité d’organisation à laquelle vous voulez appliquer l’objet de stratégie de groupe que vous avez configuré, puis cliquez sur **lier un objet de stratégie de groupe existant**.
+1.  Dans la GMC, cliquez avec le bouton droit sur le domaine ou une ou plusieurs ou plusieurs des équipes à laquelle appliquer l’GPO que vous avez configuré, puis cliquez sur Lier un **GPO existant.**
 
-2.  Dans la boîte de dialogue **Sélectionner un objet GPO** , cliquez sur **MyGPO**, puis cliquez sur **OK**.
+2.  Dans la boîte de dialogue Sélectionner **un GPO,** cliquez **sur MyGPO,** puis sur **OK.**
 
-### <a href="" id="bkmk-manage4"></a>Étape 4: utiliser un modèle pour créer un objet de stratégie de groupe
+### <a name="step-4-use-a-template-to-create-a-gpo"></a><a href="" id="bkmk-manage4"></a>Étape 4 : Utiliser un modèle pour créer un GPO
 
-Dans le cadre de cette étape, vous utiliserez un compte avec le rôle d’éditeur pour créer un modèle (version non modifiable et statique d’un objet de stratégie de groupe) à utiliser comme point de départ pour la création de nouveaux objets de stratégie de groupe, puis créez un nouvel objet de stratégie de groupe basé sur ce modèle. Les modèles permettent de créer rapidement plusieurs objets de stratégie de groupe qui incluent un grand nombre des mêmes paramètres.
+Dans cette étape, vous utilisez un compte avec le rôle Éditeur pour créer un modèle (version statique et non modifiée d’un GPO à utiliser comme point de départ pour la création de nouveaux objets de groupe), puis créez un nouvel GPO basé sur ce modèle. Les modèles sont utiles pour créer rapidement plusieurs G GPO qui incluent la plupart des mêmes paramètres.
 
-**Pour créer un modèle sur la base d’un objet de stratégie de groupe existant**
+**Pour créer un modèle basé sur un GPO existant**
 
-1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle d’éditeur a été attribué dans AGPM.
+1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle Éditeur a été attribué dans AGPM.
 
-2.  Dans l’arborescence de la **console de gestion des stratégies de groupe** , cliquez sur modifier le **contrôle** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe.
+2.  Dans **l’arborescence de** la Console de gestion des stratégies de groupe, cliquez sur **Modifier** le contrôle dans la forêt et le domaine dans lesquels vous souhaitez gérer les GGP.
 
-3.  Dans l’onglet **contenu** du volet Détails, cliquez sur l’onglet **contrôlé** .
+3.  Sous **l’onglet** Contenu du volet d’informations, cliquez sur **l’onglet** Contrôlé.
 
-4.  Cliquez avec le bouton droit sur **MyGPO**, puis cliquez sur **enregistrer en tant que modèle** pour créer un modèle contenant tous les paramètres actuellement dans MyGPO.
+4.  Cliquez avec le bouton droit **** **sur MyGPO,** puis cliquez sur Enregistrer en tant que modèle pour créer un modèle incorporant tous les paramètres actuellement dans MyGPO.
 
-5.  Tapez **MyTemplate** comme nom pour le modèle et un commentaire, puis cliquez sur **OK**.
+5.  Tapez **MyTemplate comme** nom pour le modèle et un commentaire, puis cliquez sur **OK**.
 
-6.  Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. Le nouveau modèle s’affiche sous l’onglet **modèles** .
+6.  Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. Le nouveau modèle apparaît sous **l’onglet Modèles.**
 
-**Pour demander la création d’un nouvel objet de stratégie de groupe géré via AGPM**
+**Pour demander la création d’un nouvel GPO géré via AGPM**
 
-1.  Cliquez sur l’onglet **contrôlé** .
+1.  Cliquez sur **l’onglet** Contrôlé.
 
-2.  Cliquez avec le bouton droit sur le nœud de **contrôle de modification** , puis cliquez sur **nouvel objet de stratégie de**contrôle.
+2.  Cliquez avec le bouton **droit sur le** nœud Contrôle des changements, puis cliquez sur Nouvel **GPO contrôlé.**
 
-3.  Dans la boîte de dialogue **nouvel objet GPO contrôlé** :
+3.  Dans la **boîte de dialogue Nouvel GPO** contrôlé :
 
-    1.  Pour recevoir une copie de la demande, tapez votre adresse de messagerie dans le champ **CC** .
+    1.  Pour recevoir une copie de la demande, tapez votre adresse de messagerie dans le **champ Cc.**
 
-    2.  Tapez **MyOtherGPO** comme nom du nouvel objet de stratégie de groupe.
+    2.  Tapez **MyOtherGPO** comme nom pour le nouvel GPO.
 
-    3.  Tapez un commentaire pour le nouvel objet de stratégie de groupe.
+    3.  Tapez un commentaire pour le nouvel GPO.
 
-    4.  Cliquez sur **créer Live**pour que le nouvel objet GPO soit déployé sur l’environnement de production immédiatement après approbation.
+    4.  Cliquez **sur Créer en**direct, afin que le nouvel GPO soit déployé dans l’environnement de production immédiatement après approbation.
 
-    5.  Dans **modèle d’objet de stratégie de groupe**, sélectionnez **MyTemplate**.
+    5.  For **From GPO template,** select **MyTemplate**.
 
     6.  Cliquez sur **Envoyer**.
 
-4.  Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. Le nouvel objet GPO est affiché dans l’onglet **en attente** .
+4.  Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. Le nouvel GPO s’affiche sous **l’onglet En** attente.
 
-Utilisez un compte qui a été affecté le rôle d’approbateur pour approuver la demande en attente de création de l’objet de stratégie de groupe, comme vous l’avez fait à l' [étape 1: créer un objet de stratégie de groupe](#bkmk-manage1). MyTemplate incorpore tous les paramètres que vous avez configurés dans MyGPO. Dans la mesure où MyOtherGPO a été créé à l’aide de MyTemplate, il contient tous les paramètres qui MyGPO contenus au moment de la création de MyTemplate. Pour confirmer cela, vous pouvez générer un rapport de différences et comparer MyOtherGPO à MyTemplate.
+Utilisez un compte qui a été affecté au rôle d’approuveur pour approuver la demande en attente de création de l’GPO comme vous l’avez fait à l’étape 1 : Créer [un GPO](#bkmk-manage1). MyTemplate intègre tous les paramètres que vous avez configurés dans MyGPO. Étant donné que MyOtherGPO a été créé à l’aide de MyTemplate, il contient initialement tous les paramètres que MyGPO contenait au moment de la création de MyTemplate. Vous pouvez le confirmer en générant un rapport de différences pour comparer MyOtherGPO à MyTemplate.
 
-**Pour extraire l’objet de stratégie de groupe de l’archive en vue de le modifier**
+**Pour vérifier l’GPO à partir de l’archive pour modification**
 
-1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle d’éditeur a été attribué dans AGPM.
+1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle Éditeur a été attribué dans AGPM.
 
-2.  Cliquez avec le bouton droit sur **MyOtherGPO**, puis cliquez sur **extraire**.
+2.  Cliquez avec le bouton **droit sur MyOtherGPO,** puis cliquez sur **Check Out**.
 
-3.  Tapez un commentaire à afficher dans l’historique de l’objet de stratégie de groupe lors de son extraction, puis cliquez sur **OK**.
+3.  Tapez un commentaire à afficher dans l’historique de l’GPO pendant qu’il est extrait, puis cliquez sur **OK**.
 
-4.  Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. Dans l’onglet **contrôlé** , l’état de l’objet de stratégie de groupe est identifié comme **extrait**.
+4.  Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. Sous **l’onglet** Contrôlé, l’état de l’GPO est identifié comme **extrait.**
 
-**Pour modifier l’objet de stratégie de groupe hors connexion et configurer la durée de verrouillage du compte**
+**Pour modifier l’GPO hors connexion et configurer la durée du verrouillage du compte**
 
-1.  Dans l’onglet **contrôlé** , cliquez avec le bouton droit sur **MyOtherGPO**, puis cliquez sur **modifier** pour ouvrir la fenêtre Éditeur d’objets de stratégie de groupe et apporter des modifications à une copie hors connexion de l’objet de stratégie de **groupe** . Pour ce scénario, configurez la longueur minimale du mot de passe:
+1.  Sous **l’onglet** Contrôlé, cliquez avec le bouton droit **** sur **MyOtherGPO,** puis cliquez sur Modifier pour ouvrir la fenêtre Éditeur d’objets de stratégie de groupe et apporter des modifications à une copie hors connexion de l’objet de stratégie de groupe. **** Pour ce scénario, configurez la longueur minimale du mot de passe :
 
-    1.  Sous **Configuration ordinateur**, double-cliquez sur **Paramètres Windows**, cliquez deux fois sur **paramètres de sécurité**, double-cliquez sur stratégies de **compte**, puis double-cliquez sur stratégie de **verrouillage du compte**.
+    1.  Sous **Configuration ordinateur,** double-cliquez sur **Windows Paramètres,** double-cliquez sur Sécurité **Paramètres,** double-cliquez sur Stratégies de compte **et**double-cliquez sur Stratégie de verrouillage **de compte.**
 
-    2.  Dans le volet Détails, double-cliquez sur **durée de verrouillage du compte**.
+    2.  Dans le volet d’informations, double-cliquez sur **Durée de verrouillage du compte.**
 
-    3.  Dans la fenêtre Propriétés, activez la case à cocher **définir ce paramètre de stratégie**, définissez une durée de **30** minutes, puis cliquez sur **OK**.
+    3.  Dans la fenêtre propriétés, **cochez Définir**ce paramètre de stratégie, définissez la durée sur **30** minutes, puis cliquez sur **OK**.
 
-2.  Fermez la fenêtre de l' **éditeur d’objets de stratégie de groupe** .
+2.  Fermez la **fenêtre Éditeur d’objets de stratégie de** groupe.
 
-Consultez MyOtherGPO dans l’archive et demandez le déploiement comme vous l’avez fait pour MyGPO à l' [étape 2: modifier un objet de stratégie de groupe](#bkmk-manage2). Vous pouvez comparer MyOtherGPO à MyGPO ou à MyTemplate à l’aide de rapports de différences. Tout compte qui inclut le rôle de réviseur (Administrateur AGPM [contrôle total \], approbateur, éditeur ou réviseur) peut générer des rapports.
+Vérifiez MyOtherGPO dans l’archive et demandez le déploiement comme vous l’avez fait pour MyGPO à l’étape [2 : Modifier un GPO](#bkmk-manage2). Vous pouvez comparer MyOtherGPO à MyGPO ou MyTemplate à l’aide de rapports de différences. Tout compte qui inclut le rôle Réviseur (ADMINISTRATEUR AGPM \[Contrôle total\], Approuver, Éditeur ou Réviseur) peut générer des rapports.
 
-**Pour comparer un objet GPO à un autre et à un modèle**
+**Pour comparer un GPO à un autre GPO et à un modèle**
 
-1.  Pour comparer MyGPO et MyOtherGPO:
+1.  Pour comparer MyGPO et MyOtherGPO :
 
-    1.  Dans l’onglet **contrôlé** , cliquez sur **MyGPO**. Appuyez sur **CTRL** et cliquez sur **MyOtherGPO**.
+    1.  Sous **l’onglet Contrôlé,** cliquez **sur MyGPO**. Appuyez **sur Ctrl,** puis cliquez **sur MyOtherGPO**.
 
-    2.  Cliquez avec le bouton droit sur **MyOtherGPO**, pointez sur **différences**, puis cliquez sur **rapport HTML**.
+    2.  Cliquez avec le bouton **droit sur MyOtherGPO,** pointez sur **Différences,** puis cliquez sur **Rapport HTML.**
 
-2.  Pour comparer MyOtherGPO et MyTemplate:
+2.  Pour comparer MyOtherGPO et MyTemplate :
 
-    1.  Dans l’onglet **contrôlé** , cliquez sur **MyOtherGPO**.
+    1.  Sous **l’onglet Contrôlé,** cliquez **sur MyOtherGPO**.
 
-    2.  Cliquez avec le bouton droit sur **MyOtherGPO**, pointez sur **différences**, puis cliquez sur **modèle**.
+    2.  Cliquez avec le bouton **droit sur MyOtherGPO,** pointez sur **Différences,** puis cliquez sur **Modèle**.
 
-    3.  Sélectionnez **MyTemplate** et **HTML Report**, puis cliquez sur **OK**.
+    3.  Sélectionnez **MyTemplate et** **rapport HTML,** puis cliquez sur **OK**.
 
-### <a href="" id="bkmk-manage5"></a>Étape 5: supprimer et restaurer un objet de stratégie de groupe
+### <a name="step-5-delete-and-restore-a-gpo"></a><a href="" id="bkmk-manage5"></a>Étape 5 : Supprimer et restaurer un GPO
 
-Dans le cadre de cette étape, vous jouerez le rôle d’approbateur pour supprimer un objet GPO.
+Dans cette étape, vous agissez en tant qu’approuveur pour supprimer un GPO.
 
-**Pour supprimer un objet de stratégie de groupe**
+**Pour supprimer un GPO**
 
-1.  Sur un ordinateur sur lequel vous avez installé un client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle d’approbateur a été attribué.
+1.  Sur un ordinateur sur lequel vous avez installé le client AGPM, connectez-vous avec un compte d’utilisateur auquel le rôle d’approuveur a été attribué.
 
-2.  Dans l’arborescence de la **console de gestion des stratégies de groupe** , cliquez sur modifier le **contrôle** dans la forêt et le domaine dans lesquels vous souhaitez gérer les objets de stratégie de groupe.
+2.  Dans **l’arborescence de** la Console de gestion des stratégies de groupe, cliquez sur **Modifier** le contrôle dans la forêt et le domaine dans lesquels vous souhaitez gérer les GGP.
 
-3.  Dans l’onglet **contenu** , cliquez sur l’onglet **contrôlé** pour afficher les objets de stratégie de groupe contrôlés.
+3.  Sous **l’onglet** Contenu, cliquez sur **l’onglet** Contrôlé pour afficher les G GPO contrôlés.
 
-4.  Cliquez avec le bouton droit sur **MyGPO**, puis cliquez sur **supprimer**. Cliquez sur **Supprimer l’objet GPO d’archive et de production** pour supprimer la version dans l’archive ainsi que la version déployée de l’objet de stratégie de groupe dans l’environnement de production.
+4.  Cliquez avec le bouton **droit sur MyGPO,** puis cliquez sur **Supprimer.** Cliquez **sur Supprimer un GPO** de l’archive et de la production pour supprimer la version de l’archive ainsi que la version déployée de l’GPO dans l’environnement de production.
 
-5.  Tapez un commentaire à afficher dans la trace d’audit de l’objet de stratégie de groupe, puis cliquez sur **OK**.
+5.  Tapez un commentaire à afficher dans la piste d’audit de l’objet de groupe, puis cliquez sur **OK.**
 
-6.  Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. L’objet de stratégie de groupe est supprimé de l’onglet **contrôlé** et s’affiche sous l’onglet de la **Corbeille** , où il peut être restauré ou détruit.
+6.  Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. L’GPO est supprimé **** de l’onglet Contrôlé **** et s’affiche sous l’onglet Corbeille, où il peut être restauré ou détruit.
 
-Occasionnellement, il est possible que vous puissiez découvrir après avoir supprimé un objet GPO qu’il est toujours nécessaire. Dans le cadre de cette étape, vous vous attendez en tant qu’approbateur de la restauration d’un objet de stratégie de groupe qui a été supprimé.
+Vous pouvez parfois découvrir après la suppression d’un GPO qu’il est toujours nécessaire. Dans cette étape, vous agissez en tant qu’approuveur pour restaurer un GPO qui a été supprimé.
 
-**Pour restaurer un objet de stratégie de groupe supprimé**
+**Pour restaurer un GPO supprimé**
 
-1.  Dans l’onglet **contenu** , cliquez sur l’onglet **Corbeille** pour afficher les objets de stratégie de groupe supprimés.
+1.  Sous **l’onglet** Contenu, cliquez sur **l’onglet Corbeille** pour afficher les objets de groupe supprimés.
 
-2.  Cliquez avec le bouton droit sur **MyGPO**, puis cliquez sur **restaurer**.
+2.  Cliquez avec le bouton **droit sur MyGPO,** puis cliquez sur **Restaurer.**
 
-3.  Tapez un commentaire à afficher dans l’historique de l’objet de stratégie de groupe, puis cliquez sur **OK**.
+3.  Tapez un commentaire à afficher dans l’historique de l’GPO, puis cliquez sur **OK**.
 
-4.  Lorsque la fenêtre de **progression d’AGPM** indique la progression globale de l’opération, cliquez sur **Fermer**. L’objet de stratégie de groupe est supprimé de l’onglet **Corbeille** et s’affiche sous l’onglet **contrôlé** .
+4.  Lorsque la fenêtre **Progression de l’AGPM** indique que la progression globale est terminée, cliquez sur **Fermer**. L’GPO est supprimé de l’onglet **Corbeille** et s’affiche sous **l’onglet** Contrôlé.
 
-    **Remarques**  La restauration d’un objet de stratégie de groupe dans l’archive ne le redéploie pas automatiquement dans l’environnement de production. Pour renvoyer l’objet de stratégie de groupe à l’environnement de production, déployez l’objet GPO comme à l' [étape 3: passer en revue et déployer un objet de stratégie de groupe](#bkmk-manage3).
+    **Remarque**  
+    La restauration d’un GPO dans l’archive ne le redéployera pas automatiquement dans l’environnement de production. Pour renvoyer l’GPO dans l’environnement de production, déployez l’GPO comme à l’étape 3 : Examiner [et déployer un GPO](#bkmk-manage3).
 
      
 
-Après la modification et le déploiement d’un objet de stratégie de groupe, il est possible que les modifications récentes apportées à l’objet GPO causent un problème. Dans le cadre de cette étape, vous faites Office d’approbateur pour restaurer une version précédente de l’objet de stratégie de groupe. Vous pouvez revenir à une version quelconque de l’historique de l’objet de stratégie de groupe. Vous pouvez utiliser des commentaires et des étiquettes pour identifier les versions connues et en cas de modifications spécifiques.
+Après avoir modifié et déployé un GPO, vous pouvez découvrir que les modifications récentes apportées à l’GPO sont à l’origine d’un problème. Dans cette étape, vous agirez en tant qu’approuveur pour revenir à une version précédente de l’GPO. Vous pouvez revenir à n’importe quelle version de l’historique de l’GPO. Vous pouvez utiliser des commentaires et des étiquettes pour identifier les bonnes versions connues et le moment où des modifications spécifiques ont été apportées.
 
-**Pour restaurer une version précédente d’un objet de stratégie de groupe**
+**Pour revenir à une version précédente d’un GPO**
 
-1.  Dans l’onglet **contenu** , cliquez sur l’onglet **contrôlé** pour afficher les objets de stratégie de groupe contrôlés.
+1.  Sous **l’onglet** Contenu, cliquez sur **l’onglet** Contrôlé pour afficher les G GPO contrôlés.
 
 2.  Double-cliquez sur **MyGPO** pour afficher son historique.
 
-3.  Cliquez avec le bouton droit sur la version que vous voulez déployer, cliquez sur **déployer**, puis sur **Oui**.
+3.  Cliquez avec le bouton droit sur la version à déployer, **cliquez**sur Déployer, puis cliquez sur **Oui**.
 
-4.  Lorsque la fenêtre de **progression** indique que l’avancement global est terminé, cliquez sur **Fermer**. Dans la fenêtre **historique** , cliquez sur **Fermer**.
+4.  Lorsque la **fenêtre Progression** indique que la progression globale est terminée, cliquez sur **Fermer.** Dans la **fenêtre Historique,** cliquez sur **Fermer.**
 
-    **Remarques**  Pour vérifier que la version qui a été redéployée est la version prévue, examinez un rapport de différences pour les deux versions. Dans la fenêtre **historique** de l’objet de stratégie de groupe, sélectionnez les deux versions, cliquez dessus avec le bouton droit, pointez sur **différence**, puis cliquez sur rapport **HTML** ou sur **rapport XML**.
+    **Remarque**  
+    Pour vérifier que la version qui a été redéployée est celle prévue, examinez un rapport de différences pour les deux versions. Dans la **fenêtre** Historique de l’GPO, sélectionnez les deux versions, cliquez dessus avec le bouton droit, pointez sur **Différence,** puis cliquez sur Rapport **HTML** ou **Rapport XML.**
 
      
 

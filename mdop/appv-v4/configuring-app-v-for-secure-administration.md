@@ -11,34 +11,34 @@ ms.mktglfcycl: deploy
 ms.sitesec: library
 ms.prod: w10
 ms.date: 06/16/2016
-ms.openlocfilehash: de70c1df734bbf1168fd7dacf9410d3451a8a3c2
-ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.openlocfilehash: c95fab4b2b4f402df4ff0f82f2f346c9bd226e00
+ms.sourcegitcommit: 3e0500abde44d6a09c7ac8e3caf5e25929b490a4
 ms.translationtype: MT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 06/26/2020
-ms.locfileid: "10809035"
+ms.lasthandoff: 08/23/2021
+ms.locfileid: "11910479"
 ---
-# Configuration d'App-V pour l'administration sécurisée
+# <a name="configuring-app-v-for-secure-administration"></a>Configuration d'App-V pour l'administration sécurisée
 
 
-Dans un environnement où les opérations d’administration sécurisées sont importantes, App-V autorise une communication sécurisée entre le service de gestion des applications Web de l’application et la console de gestion de l’application-V. Étant donné que le service de gestion est une application basée sur le Web, il est nécessaire de sécuriser l’application serveur de gestion des applications sur le serveur Web qui héberge le service de gestion. Comme le montre l’illustration suivante, ce processus inclut l’utilisation de HTTPs pour la communication et la configuration du serveur IIS pour autoriser uniquement l’authentification intégrée à Windows.
+Dans un environnement où la sécurisation des opérations d’administration est importante, App-V permet une communication sécurisée entre le service de gestion Web App-V et la console de gestion App-V. Étant donné que le service de gestion est une application Web, il requiert la sécurisation de l’application App-V Management Server sur le serveur Web qui héberge le service de gestion. Comme indiqué dans l’illustration suivante, ce processus inclut l’utilisation du protocole HTTPS pour la communication et la configuration du serveur IIS pour autoriser uniquement l’authentification Windows intégrée.
 
-![configuration du réseau de service Web de l’application v](images/appvmgmtwebservice.gif)
+![configuration du réseau du service web app-v.](images/appvmgmtwebservice.gif)
 
-Le service de gestion des applications Web App-V est installé en tant qu’application Web sur IIS. Pour que le service de gestion des sites Web prenne en charge les connexions sécurisées (SSL) entre la console de gestion des applications et le service de gestion des sites Web, vous devez configurer le serveur IIS sur lequel le service de gestion des sites Web est installé et configurer la console de gestion des applications V.
+Le service de gestion Web App-V est installé en tant qu’application Web sur IIS. Pour que le service de gestion Web soit en charge des connexions sécurisées (SSL) entre la console de gestion App-V et le service de gestion Web, vous devez configurer le serveur IIS où le service de gestion Web est installé et configurer la console de gestion App-V.
 
-## Dans cette section
+## <a name="in-this-section"></a>Dans cette section
 
 
 <a href="" id="configuring-certificates-to-support-the-app-v-web-management-service"></a>[Configuration de certificats pour prendre en charge le service de gestion Web App-V](configuring-certificates-to-support-the-app-v-web-management-service.md)  
-Fournit des informations utiles sur la configuration des certificats pour la prise en charge des connexions SSL, pour vous aider à sécuriser la communication pour le service de gestion des applications Web App-V.
+Fournit des informations utiles sur la configuration des certificats pour prendre en charge les connexions basées sur SSL, afin de sécuriser la communication pour le service de gestion Web App-V.
 
 <a href="" id="how-to-install-and-configure-the-app-v-management-console-for-a-more-secure-environment"></a>[Comment installer et configurer App-V Management Console pour un environnement plus sécurisé](how-to-install-and-configure-the-app-v-management-console-for-a-more-secure-environment.md)  
-Fournit une procédure pas à pas de connexion à un service de gestion des applications Web App-V via une connexion sécurisée.
+Fournit une procédure pas à pas pour la connexion à un service de gestion Web App-V à l’aide d’une connexion sécurisée.
 
- 
+ 
 
- 
+ 
 
 
 

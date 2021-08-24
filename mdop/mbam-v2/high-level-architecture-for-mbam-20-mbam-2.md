@@ -1,6 +1,6 @@
 ---
-title: Architecture de hautniveau pour MBAM2.0
-description: Architecture de hautniveau pour MBAM2.0
+title: Architecture de haut niveau pour MBAM 2.0
+description: Architecture de haut niveau pour MBAM 2.0
 author: dansimp
 ms.assetid: 7f73dd3a-0b1f-4af6-a2f0-d0c5bc5d183a
 ms.reviewer: ''
@@ -11,70 +11,71 @@ ms.mktglfcycl: manage
 ms.sitesec: library
 ms.prod: w10
 ms.date: 06/16/2016
-ms.openlocfilehash: ddc061a1aec5141548c2d2141be38f8501d2244d
-ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.openlocfilehash: f19480b5797362e6e4119fff9a14afd9d5a74d98
+ms.sourcegitcommit: 3e0500abde44d6a09c7ac8e3caf5e25929b490a4
 ms.translationtype: MT
 ms.contentlocale: fr-FR
-ms.lasthandoff: 06/26/2020
-ms.locfileid: "10810715"
+ms.lasthandoff: 08/23/2021
+ms.locfileid: "11910499"
 ---
-# Architecture de hautniveau pour MBAM2.0
+# <a name="high-level-architecture-for-mbam-20"></a>Architecture de haut niveau pour MBAM 2.0
 
 
-Le programme d’administration et de surveillance de Microsoft BitLocker (MBAM) est une solution client/serveur qui vous permet de simplifier la mise en service et le déploiement de BitLocker, d’améliorer la conformité et la création de rapports sur BitLocker et de réduire les coûts de prise en charge. L’administration et la surveillance de Microsoft BitLocker incluent les fonctionnalités décrites dans cette rubrique.
+Microsoft BitLocker Administration and Monitoring (MBAM) est une solution client/serveur qui peut vous aider à simplifier l’approvisionnement et le déploiement de BitLocker, à améliorer la conformité et les rapports sur BitLocker et à réduire les coûts de support. Microsoft BitLocker Administration and Monitoring inclut les fonctionnalités décrites dans cette rubrique.
 
-L’administration et le suivi de BitLocker peuvent être déployés dans la topologie autonome ou dans une topologie intégrée à Microsoft System Center Configuration Manager 2007 ou MicrosoftSystemCenter2012. Cette rubrique décrit l’architecture de la topologie autonome. Pour plus d’informations sur le déploiement dans la topologie intégré de Configuration Manager, voir [utilisation de MBAM avec Configuration Manager](using-mbam-with-configuration-manager.md).
+Microsoft BitLocker Administration and Monitoring peut être déployé dans la topologie autonome ou dans une topologie intégrée à Microsoft System Center Configuration Manager 2007 ou Microsoft System Center 2012 Configuration Manager. Cette rubrique décrit l’architecture de la topologie autonome. Pour plus d’informations sur le déploiement dans la topologie Configuration Manager intégrée, voir Utilisation de [MBAM avec Configuration Manager.](using-mbam-with-configuration-manager.md)
 
-Le diagramme suivant illustre l’architecture recommandée de MBAM pour un environnement de production, qui comprend deux serveurs et une station de travail de gestion. Cette architecture prend en charge jusqu’à 200 000 clients MBAM. Les fonctionnalités de serveur et bases de données de l’architecture de l’architecture sont décrites dans la section suivante, qui s’affichent sur votre ordinateur ou serveur pour lequel nous vous recommandons de les installer.
+Le diagramme suivant illustre l’architecture recommandée MBAM pour un environnement de production, qui se compose de deux serveurs et d’une station de travail de gestion. Cette architecture prend en charge jusqu’à 200 000 clients MBAM. Les fonctionnalités serveur et les bases de données de l’image d’architecture sont décrites dans la section suivante et sont répertoriées sous l’ordinateur ou le serveur où nous vous recommandons de les installer.
 
-**Remarques**  Une architecture à serveur unique doit être utilisée uniquement dans les environnements de test.
+**Remarque**  
+Une architecture à serveur unique doit être utilisée uniquement dans les environnements de test.
 
  
 
-![MBAM 2 2-topologie de déploiement de serveur](images/mbam2-3-servers.gif)
+![Topologie de déploiement à deux serveurs mbam 2.](images/mbam2-3-servers.gif)
 
-## Serveur d’administration et de surveillance
-
-
-Les fonctionnalités suivantes sont installées sur ce serveur:
-
--   **Serveur d’administration et de surveillance**. La fonctionnalité d’administration et de surveillance du serveur est installée sur un serveur Windows et se compose du site Web d’administration et de surveillance, qui inclut les rapports et le portail du support technique, ainsi que les services Web de surveillance.
-
--   **Portail libre-service**. Le portail libre-service est installé sur un serveur Windows. Le portail libre-service permet aux utilisateurs finaux sur les ordinateurs clients de se connecter de manière indépendante à un site Web, à partir duquel ils peuvent obtenir une clé de récupération pour récupérer un volume BitLocker verrouillé.
-
-## Serveur de base de données
+## <a name="administration-and-monitoring-server"></a>Serveur d’administration et de surveillance
 
 
-Les fonctionnalités suivantes sont installées sur ce serveur:
+Les fonctionnalités suivantes sont installées sur ce serveur :
 
--   **Base de données de récupération**. La base de données de récupération est installée sur un serveur Windows et sur une instance de Microsoft SQLServer qui est prise en charge. Cette base de données stocke les données de récupération collectées à partir des ordinateurs clients MBAM.
+-   **Serveur d’administration et de surveillance.** La fonctionnalité Serveur d’administration et de surveillance est installée sur un serveur Windows et se compose du site web Administration et surveillance, qui inclut les rapports, le portail Help Desk et les services web de surveillance.
 
--   **Base de données d’audit et de conformité**. La base de données d’audit et de conformité est installée sur un serveur Windows et sur une instance de SQLServer prise en charge. Cette base de données stocke les données de conformité pour les ordinateurs clients MBAM. Ces données sont principalement utilisées pour les rapports hébergés par SQL Server Reporting Services (SSRS).
+-   **Portail libre-service**. Le Self-Service'entreprise est installé sur un Windows serveur. Le portail Self-Service permet aux utilisateurs finaux sur les ordinateurs clients de se connecter indépendamment à un site web, où ils peuvent obtenir une clé de récupération pour récupérer un volume BitLocker verrouillé.
 
--   **Rapports de conformité et d’audit**. Les rapports de conformité et d’audit sont installés sur un serveur Windows et une instance prise en charge de SQLServer pour lequel la fonctionnalité SQL Server Reporting Services (SSRS) est installée. Ces rapports fournissent des rapports MBAM auxquels vous pouvez accéder à partir du site Web d’administration et de surveillance ou directement à partir du serveur SSRS.
-
-## Station de travail de gestion
+## <a name="database-server"></a>Serveur de base de données
 
 
-La fonctionnalité suivante est installée sur la station de travail de gestion, qui peut être un ordinateur Windows Server ou un ordinateur client.
+Les fonctionnalités suivantes sont installées sur ce serveur :
 
--   **Modèle de stratégie**. Le modèle de stratégie est composé de paramètres de stratégie de groupe définissant les paramètres d’implémentation de MBAM pour le chiffrement de lecteur BitLocker. Vous pouvez installer le modèle de stratégie sur n’importe quel serveur ou station de travail, mais il est généralement installé sur une station de travail de gestion (ordinateur client ou client pris en charge). La station de travail ne doit pas nécessairement être un ordinateur dédié.
+-   **Base de données de récupération**. La base de données de récupération est installée sur un serveur Windows et une instance prise en charge de Microsoft SQL Server. Cette base de données stocke les données de récupération collectées à partir des ordinateurs clients MBAM.
 
-## <a href="" id="---------mbam-client"></a> Client MBAM
+-   **Base de données de conformité et d’audit.** La base de données de conformité et d’audit est installée sur Windows serveur et une instance de SQL Server. Cette base de données stocke les données de conformité pour les ordinateurs clients MBAM. Ces données sont utilisées principalement pour les rapports SQL Server Reporting Services (SSRS).
 
+-   **Rapports de conformité et d’audit.** Les rapports de conformité et d’audit sont installés sur un serveur Windows et une instance de SQL Server prise en charge sur SQL Server Reporting Services (SSRS) est installée. Ces rapports fournissent des rapports MBAM accessibles à partir du site Web Administration et surveillance ou directement à partir du serveur SSRS.
 
-Le client MBAM est installé sur un ordinateur Windows et il présente les caractéristiques suivantes:
-
--   Utilise une stratégie de groupe pour appliquer le chiffrement de lecteur BitLocker d’ordinateurs clients au sein de l’entreprise.
-
--   Collecte la clé de récupération pour les trois types de lecteurs de données BitLocker: lecteurs du système d’exploitation, lecteurs de données fixes et lecteurs de données amovibles (USB).
-
--   Collecte les données de conformité de l’ordinateur et transmet les données au système de création de rapports.
-
-## Rubriques connexes
+## <a name="management-workstation"></a>Station de travail de gestion
 
 
-[Prise en main de MBAM2.0](getting-started-with-mbam-20-mbam-2.md)
+La fonctionnalité suivante est installée sur la station de travail de gestion, qui peut être un serveur Windows ou un ordinateur client.
+
+-   **Modèle de stratégie**. Le modèle de stratégie se compose de paramètres de stratégie de groupe qui définissent les paramètres d’implémentation MBAM pour le chiffrement de lecteur BitLocker. Vous pouvez installer le modèle de stratégie sur n’importe quel serveur ou station de travail, mais il est généralement installé sur une station de travail de gestion, qui est un serveur Windows ou un ordinateur client pris en charge. La station de travail n’a pas besoin d’être un ordinateur dédié.
+
+## <a name="mbam-client"></a><a href="" id="---------mbam-client"></a> MBAM Client
+
+
+Le client MBAM est installé sur un ordinateur Windows et présente les caractéristiques suivantes :
+
+-   Utilise la stratégie de groupe pour appliquer le chiffrement de lecteur BitLocker des ordinateurs clients dans l’entreprise.
+
+-   Collecte la clé de récupération pour les trois types de lecteur de données BitLocker : lecteurs de système d’exploitation, lecteurs de données fixes et lecteurs de données amovibles (USB).
+
+-   Collecte les données de conformité de l’ordinateur et les transmet au système de rapports.
+
+## <a name="related-topics"></a>Rubriques associées
+
+
+[Prise en main de MBAM 2.0](getting-started-with-mbam-20-mbam-2.md)
 
  
 
